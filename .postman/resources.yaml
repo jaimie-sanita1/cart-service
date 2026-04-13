@@ -1,0 +1,7 @@
+# Use this workspace to collaborate
+workspace:
+  id: 577d629c-9b7d-478f-acb1-97c5413bb366
+
+localResources:
+  specs:
+    - ../cart.yaml

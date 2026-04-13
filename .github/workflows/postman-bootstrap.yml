@@ -1,0 +1,29 @@
+name: Postman Bootstrap
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'cart.yaml'
+  workflow_dispatch:
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Serve OpenAPI spec locally
+        run: |
+          python3 -m http.server 8080 &
+          sleep 2
+
+      - name: Bootstrap Postman workspace
+        uses: postman-cs/postman-bootstrap-action@v0
+        with:
+          project-name: cart-service
+          spec-url: http://localhost:8080/cart.yaml
+          postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
+          workspace-id: 577d629c-9b7d-478f-acb1-97c5413bb366
+          spec-id: ${{ secrets.POSTMAN_SPEC_ID }}

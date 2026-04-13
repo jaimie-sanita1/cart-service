@@ -1,0 +1,6 @@
+workflows:
+  syncSpecToCollection:
+    - spec: ../cart.yaml
+      collection: ../postman/collections/Cart
+      options:
+        syncExamples: false
