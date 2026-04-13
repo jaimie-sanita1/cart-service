@@ -1,0 +1,279 @@
+openapi: 3.0.3
+info:
+  title: Cart API
+  description: A simple e-commerce cart API for managing carts, items, and checkout.
+  version: 1.0.0
+
+servers:
+  - url: https://api.example.com/v1
+
+# TODO: Add /products endpoints in a future iteration to support product browsing and search.
+
+paths:
+  /carts:
+    post:
+      summary: Create a cart
+      operationId: createCart
+      responses:
+        '201':
+          description: Cart created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /carts/{cartId}:
+    get:
+      summary: Get a cart
+      operationId: getCart
+      parameters:
+        - $ref: '#/components/parameters/cartId'
+      responses:
+        '200':
+          description: Cart retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Delete a cart
+      operationId: deleteCart
+      parameters:
+        - $ref: '#/components/parameters/cartId'
+      responses:
+        '204':
+          description: Cart deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /carts/{cartId}/items:
+    post:
+      summary: Add an item to a cart
+      operationId: addItem
+      parameters:
+        - $ref: '#/components/parameters/cartId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddItemRequest'
+      responses:
+        '201':
+          description: Item added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartItem'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /carts/{cartId}/items/{itemId}:
+    patch:
+      summary: Update item quantity
+      operationId: updateItemQuantity
+      parameters:
+        - $ref: '#/components/parameters/cartId'
+        - $ref: '#/components/parameters/itemId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateItemRequest'
+      responses:
+        '200':
+          description: Item updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartItem'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Remove an item from a cart
+      operationId: removeItem
+      parameters:
+        - $ref: '#/components/parameters/cartId'
+        - $ref: '#/components/parameters/itemId'
+      responses:
+        '204':
+          description: Item removed
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /carts/{cartId}/checkout:
+    post:
+      summary: Checkout a cart
+      operationId: checkout
+      parameters:
+        - $ref: '#/components/parameters/cartId'
+      responses:
+        '200':
+          description: Checkout successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Cart is empty
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  parameters:
+    cartId:
+      name: cartId
+      in: path
+      required: true
+      schema:
+        type: string
+    itemId:
+      name: itemId
+      in: path
+      required: true
+      schema:
+        type: string
+
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cart_abc123
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+        total:
+          type: number
+          format: float
+          example: 59.97
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CartItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: item_xyz789
+        productId:
+          type: string
+          example: prod_001
+        name:
+          type: string
+          example: Wireless Headphones
+        price:
+          type: number
+          format: float
+          example: 29.99
+        quantity:
+          type: integer
+          example: 2
+        subtotal:
+          type: number
+          format: float
+          example: 59.98
+
+    AddItemRequest:
+      type: object
+      required:
+        - productId
+        - quantity
+      properties:
+        productId:
+          type: string
+          example: prod_001
+        quantity:
+          type: integer
+          minimum: 1
+          example: 2
+
+    UpdateItemRequest:
+      type: object
+      required:
+        - quantity
+      properties:
+        quantity:
+          type: integer
+          minimum: 1
+          example: 3
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          example: order_def456
+        cartId:
+          type: string
+          example: cart_abc123
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+        total:
+          type: number
+          format: float
+          example: 59.97
+        status:
+          type: string
+          enum:
+            - confirmed
+            - processing
+            - shipped
+            - delivered
+          example: confirmed
+        createdAt:
+          type: string
+          format: date-time
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          example: NOT_FOUND
+        message:
+          type: string
+          example: Cart not found
