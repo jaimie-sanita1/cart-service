@@ -3,6 +3,7 @@ name: '8 - Remove item'
 method: DELETE
 url: '{{baseUrl}}/carts/{{secondCartId}}/items/{{removableItemId}}'
 order: 2000
+examples: ./.resources/8-remove-item.resources/examples
 scripts:
   - type: beforeRequest
     language: text/javascript

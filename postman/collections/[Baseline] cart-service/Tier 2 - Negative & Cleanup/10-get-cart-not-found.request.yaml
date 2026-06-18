@@ -3,6 +3,10 @@ name: '10 - Get cart not found'
 method: GET
 url: '{{baseUrl}}/carts/invalid_id_does_not_exist'
 order: 4000
+examples: ./.resources/10-get-cart-not-found.resources/examples
+headers:
+  - key: x-mock-response-code
+    value: '404'
 scripts:
   - type: afterResponse
     language: text/javascript

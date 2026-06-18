@@ -3,6 +3,10 @@ name: '2 - Get empty cart'
 method: GET
 url: '{{baseUrl}}/carts/{{cartId}}'
 order: 2000
+examples: ./.resources/2-get-empty-cart.resources/examples
+headers:
+  - key: x-cart-state
+    value: empty
 scripts:
   - type: afterResponse
     language: text/javascript

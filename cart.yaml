@@ -5,7 +5,8 @@ info:
   version: 1.0.0
 
 servers:
-  - url: https://api.example.com/v1
+  - url: http://localhost:3001
+    description: Mock Server
 
 # TODO: Add /products endpoints in a future iteration to support product browsing and search.
 

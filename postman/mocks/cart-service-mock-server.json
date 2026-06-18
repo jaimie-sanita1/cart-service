@@ -1,0 +1,23 @@
+{
+  "id": "019edb38-9867-7503-840b-fa78a1a3eb06",
+  "version": 1,
+  "name": "cart-service mock-server",
+  "slug": "new-mock-b3aa8",
+  "isPrivate": false,
+  "protocol": "http",
+  "port": 3001,
+  "mockSrc": "./cart-service-mock-server.js",
+  "autoRestartOnChange": true,
+  "logging": {
+    "level": "verbose",
+    "showBody": true
+  },
+  "associations": [
+    {
+      "entityType": "spec",
+      "entityId": "L1VzZXJzL2phaW1pZS5zYW5pdGFAcG9zdG1hbi5jb20vRGVza3RvcC9zcmMvY2FydC1zZXJ2aWNlL2NhcnQueWFtbA",
+      "relation": "source",
+      "syncEnabled": true
+    }
+  ]
+}

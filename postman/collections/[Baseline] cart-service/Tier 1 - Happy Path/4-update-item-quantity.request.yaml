@@ -3,6 +3,7 @@ name: '4 - Update item quantity'
 method: PATCH
 url: '{{baseUrl}}/carts/{{cartId}}/items/{{itemId}}'
 order: 4000
+examples: ./.resources/4-update-item-quantity.resources/examples
 headers:
   - key: Content-Type
     value: application/json

@@ -1,4 +1,5 @@
 $kind: http-request
+name: Update item quantity
 url: "{{baseUrl}}/carts/:cartId/items/:itemId"
 method: PATCH
 headers:
@@ -6,13 +7,14 @@ headers:
   Accept: application/json
 pathVariables:
   - key: cartId
-    value: string
+    value: '{{cartId}}'
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string"
+            "type": "string",
+            "default": "<string>"
           }
         },
         "required": [
@@ -20,13 +22,14 @@ pathVariables:
         ]
       }
   - key: itemId
-    value: string
+    value: '{{itemId}}'
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string"
+            "type": "string",
+            "default": "<string>"
           }
         },
         "required": [
@@ -55,3 +58,12 @@ body:
     }
 examples: ./.resources/Update item quantity.resources/examples
 order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Status is 200', () => pm.response.to.have.status(200));
+      pm.test('Quantity reflects request body (3)', () => {
+        const json = pm.response.json();
+        pm.expect(json.quantity).to.eql(3);
+      });

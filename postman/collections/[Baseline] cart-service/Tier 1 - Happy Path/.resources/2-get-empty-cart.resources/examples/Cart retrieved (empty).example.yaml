@@ -1,0 +1,25 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts/:cartId"
+  method: GET
+  pathVariables:
+    cartId: "{{cartId}}"
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "cart_abc123",
+        "items": [],
+        "total": 0,
+        "createdAt": "2013-03-20T16:45:30.951Z",
+        "updatedAt": "2025-02-08T16:36:13.664Z"
+      }
+order: 1000

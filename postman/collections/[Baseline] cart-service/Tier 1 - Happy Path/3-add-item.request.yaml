@@ -3,6 +3,7 @@ name: '3 - Add item'
 method: POST
 url: '{{baseUrl}}/carts/{{cartId}}/items'
 order: 3000
+examples: ./.resources/3-add-item.resources/examples
 headers:
   - key: Content-Type
     value: application/json

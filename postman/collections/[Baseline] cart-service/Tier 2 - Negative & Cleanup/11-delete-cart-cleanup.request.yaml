@@ -3,6 +3,7 @@ name: '11 - Delete cart (cleanup)'
 method: DELETE
 url: '{{baseUrl}}/carts/{{cartId}}'
 order: 5000
+examples: ./.resources/11-delete-cart-cleanup.resources/examples
 scripts:
   - type: afterResponse
     language: text/javascript

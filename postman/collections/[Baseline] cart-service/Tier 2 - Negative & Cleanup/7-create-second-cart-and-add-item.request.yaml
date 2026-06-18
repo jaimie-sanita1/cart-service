@@ -3,6 +3,7 @@ name: '7 - Create second cart (setup)'
 method: POST
 url: '{{baseUrl}}/carts'
 order: 1000
+examples: ./.resources/7-create-second-cart-and-add-item.resources/examples
 scripts:
   - type: afterResponse
     language: text/javascript

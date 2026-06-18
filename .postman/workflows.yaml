@@ -6,10 +6,6 @@
 workflows:
   syncSpecToCollection:
     - spec: ../cart.yaml
-      collection: ../postman/collections/Cart
-      options:
-        syncExamples: false
-    - spec: ../cart.yaml
       collection: '../postman/collections/[Blueprint] cart-service'
       options:
         syncExamples: false

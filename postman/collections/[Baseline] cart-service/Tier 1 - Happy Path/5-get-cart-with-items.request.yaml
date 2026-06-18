@@ -3,6 +3,7 @@ name: '5 - Get cart with items'
 method: GET
 url: '{{baseUrl}}/carts/{{cartId}}'
 order: 5000
+examples: ./.resources/5-get-cart-with-items.resources/examples
 scripts:
   - type: afterResponse
     language: text/javascript

@@ -3,6 +3,10 @@ name: '9 - Checkout empty cart'
 method: POST
 url: '{{baseUrl}}/carts/{{secondCartId}}/checkout'
 order: 3000
+examples: ./.resources/9-checkout-empty-cart.resources/examples
+headers:
+  - key: x-mock-response-code
+    value: '409'
 scripts:
   - type: afterResponse
     language: text/javascript

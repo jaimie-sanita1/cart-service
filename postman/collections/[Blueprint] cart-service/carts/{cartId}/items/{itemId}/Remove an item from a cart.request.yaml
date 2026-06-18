@@ -1,17 +1,19 @@
 $kind: http-request
+name: Remove an item from a cart
 url: "{{baseUrl}}/carts/:cartId/items/:itemId"
 method: DELETE
 headers:
   Accept: application/json
 pathVariables:
   - key: cartId
-    value: string
+    value: '{{cartId}}'
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string"
+            "type": "string",
+            "default": "<string>"
           }
         },
         "required": [
@@ -19,13 +21,14 @@ pathVariables:
         ]
       }
   - key: itemId
-    value: string
+    value: '{{itemId}}'
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string"
+            "type": "string",
+            "default": "<string>"
           }
         },
         "required": [
@@ -37,3 +40,11 @@ body:
   content: ""
 examples: ./.resources/Remove an item from a cart.resources/examples
 order: 2000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Status is 204', () => pm.response.to.have.status(204));
+      pm.test('Response body is empty', () => {
+        pm.expect(pm.response.text() || '').to.eql('');
+      });

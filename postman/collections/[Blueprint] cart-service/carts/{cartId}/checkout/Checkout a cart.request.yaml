@@ -1,17 +1,19 @@
 $kind: http-request
+name: Checkout a cart
 url: "{{baseUrl}}/carts/:cartId/checkout"
 method: POST
 headers:
   Accept: application/json
 pathVariables:
   - key: cartId
-    value: string
+    value: '{{cartId}}'
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string"
+            "type": "string",
+            "default": "<string>"
           }
         },
         "required": [
@@ -23,3 +25,14 @@ body:
   content: ""
 examples: ./.resources/Checkout a cart.resources/examples
 order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Status is 200', () => pm.response.to.have.status(200));
+      pm.test('Order is confirmed', () => {
+        const json = pm.response.json();
+        pm.expect(json.id).to.be.a('string').and.not.empty;
+        pm.expect(json.status).to.eql('confirmed');
+        pm.expect(json.total).to.be.a('number');
+      });

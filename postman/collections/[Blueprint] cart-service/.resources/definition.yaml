@@ -2,4 +2,16 @@ $kind: collection
 name: "[Blueprint] cart-service"
 description: A simple e-commerce cart API for managing carts, items, and checkout.
 variables:
-  baseUrl: https://api.example.com/v1
+  baseUrl: http://localhost:3001
+  cartId: ""
+  itemId: ""
+scripts:
+  - type: http:afterResponse
+    code: |-
+      pm.test('Response time is reasonable (<2000ms)', () => {
+        pm.expect(pm.response.responseTime).to.be.below(2000);
+      });
+      pm.test('Response has a status code', () => {
+        pm.expect(pm.response.code).to.be.a('number');
+      });
+    language: text/javascript

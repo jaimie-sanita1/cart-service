@@ -1,4 +1,5 @@
 $kind: http-request
+name: Add an item to a cart
 url: "{{baseUrl}}/carts/:cartId/items"
 method: POST
 headers:
@@ -6,13 +7,14 @@ headers:
   Accept: application/json
 pathVariables:
   - key: cartId
-    value: string
+    value: '{{cartId}}'
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string"
+            "type": "string",
+            "default": "<string>"
           }
         },
         "required": [
@@ -47,3 +49,15 @@ body:
     }
 examples: ./.resources/Add an item to a cart.resources/examples
 order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Status is 201', () => pm.response.to.have.status(201));
+      pm.test('Response has item id and product info', () => {
+        const json = pm.response.json();
+        pm.expect(json.id).to.be.a('string').and.not.empty;
+        pm.expect(json.productId).to.be.a('string');
+        pm.expect(json.quantity).to.be.a('number');
+        pm.collectionVariables.set('itemId', json.id);
+      });

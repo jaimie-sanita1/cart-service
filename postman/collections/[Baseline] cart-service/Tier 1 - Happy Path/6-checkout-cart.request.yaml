@@ -3,6 +3,7 @@ name: '6 - Checkout cart'
 method: POST
 url: '{{baseUrl}}/carts/{{cartId}}/checkout'
 order: 6000
+examples: ./.resources/6-checkout-cart.resources/examples
 scripts:
   - type: afterResponse
     language: text/javascript

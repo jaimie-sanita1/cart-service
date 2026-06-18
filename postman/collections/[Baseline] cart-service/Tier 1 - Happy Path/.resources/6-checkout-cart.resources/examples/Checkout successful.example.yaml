@@ -1,0 +1,43 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts/:cartId/checkout"
+  method: POST
+  pathVariables:
+    cartId: "{{cartId}}"
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "order_def456",
+        "cartId": "cart_abc123",
+        "items": [
+          {
+            "id": "item_xyz789",
+            "productId": "prod_001",
+            "name": "Wireless Headphones",
+            "price": 29.99,
+            "quantity": 2,
+            "subtotal": 59.98
+          },
+          {
+            "id": "item_xyz789",
+            "productId": "prod_001",
+            "name": "Wireless Headphones",
+            "price": 29.99,
+            "quantity": 2,
+            "subtotal": 59.98
+          }
+        ],
+        "total": 59.97,
+        "status": "confirmed",
+        "createdAt": "2002-11-04T06:00:07.141Z"
+      }
+order: 1000
