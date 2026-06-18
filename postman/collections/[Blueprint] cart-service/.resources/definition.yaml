@@ -1,0 +1,5 @@
+$kind: collection
+name: "[Blueprint] cart-service"
+description: A simple e-commerce cart API for managing carts, items, and checkout.
+variables:
+  baseUrl: https://api.example.com/v1

@@ -1,0 +1,43 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts/:cartId/items"
+  method: POST
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  pathVariables:
+    cartId: string
+  body:
+    type: json
+    content: |-
+      {
+        "productId": "prod_001",
+        "quantity": 2
+      }
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "code": "NOT_FOUND",
+        "message": "Cart not found"
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "NOT_FOUND"
+          },
+          "message": {
+            "type": "string",
+            "example": "Cart not found"
+          }
+        }
+      }
+order: 2000

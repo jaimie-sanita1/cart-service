@@ -1,0 +1,14 @@
+$kind: collection
+name: '[Baseline] cart-service'
+description: 'Baseline test coverage for the Cart API spec — Tier 1 happy path + Tier 2 negative/cleanup'
+variables:
+  - key: baseUrl
+    value: 'https://api.example.com/v1'
+  - key: cartId
+    value: ''
+  - key: itemId
+    value: ''
+  - key: secondCartId
+    value: ''
+  - key: productId
+    value: 'prod_001'

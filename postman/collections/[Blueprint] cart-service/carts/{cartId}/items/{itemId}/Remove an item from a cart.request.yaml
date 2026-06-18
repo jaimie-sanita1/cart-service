@@ -1,0 +1,39 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: string
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+  - key: itemId
+    value: string
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Remove an item from a cart.resources/examples
+order: 2000

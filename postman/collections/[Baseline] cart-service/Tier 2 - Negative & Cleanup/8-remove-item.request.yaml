@@ -1,0 +1,26 @@
+$kind: http-request
+name: '8 - Remove item'
+method: DELETE
+url: '{{baseUrl}}/carts/{{secondCartId}}/items/{{removableItemId}}'
+order: 2000
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      const baseUrl = pm.collectionVariables.get("baseUrl");
+      const cartId = pm.collectionVariables.get("secondCartId");
+      const productId = pm.collectionVariables.get("productId");
+      pm.sendRequest({
+        url: `${baseUrl}/carts/${cartId}/items`,
+        method: "POST",
+        header: { "Content-Type": "application/json" },
+        body: { mode: "raw", raw: JSON.stringify({ productId: productId, quantity: 1 }) }
+      }, (err, res) => {
+        if (!err && res) {
+          pm.collectionVariables.set("removableItemId", res.json().id);
+        }
+      });
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status is 204", () => pm.response.to.have.status(204));

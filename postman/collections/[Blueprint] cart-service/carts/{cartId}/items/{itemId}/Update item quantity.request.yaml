@@ -1,0 +1,57 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: string
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+  - key: itemId
+    value: string
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "quantity": 3
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "example": 3
+        }
+      },
+      "required": [
+        "quantity"
+      ]
+    }
+examples: ./.resources/Update item quantity.resources/examples
+order: 1000

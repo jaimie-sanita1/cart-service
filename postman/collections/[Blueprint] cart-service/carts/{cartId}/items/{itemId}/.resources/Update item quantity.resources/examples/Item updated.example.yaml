@@ -1,0 +1,65 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+  method: PATCH
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  pathVariables:
+    cartId: string
+    itemId: string
+  body:
+    type: json
+    content: |-
+      {
+        "quantity": 3
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "item_xyz789",
+        "productId": "prod_001",
+        "name": "Wireless Headphones",
+        "price": 29.99,
+        "quantity": 2,
+        "subtotal": 59.98
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "item_xyz789"
+          },
+          "productId": {
+            "type": "string",
+            "example": "prod_001"
+          },
+          "name": {
+            "type": "string",
+            "example": "Wireless Headphones"
+          },
+          "price": {
+            "type": "number",
+            "example": 29.99,
+            "format": "float"
+          },
+          "quantity": {
+            "type": "integer",
+            "example": 2
+          },
+          "subtotal": {
+            "type": "number",
+            "example": 59.98,
+            "format": "float"
+          }
+        }
+      }
+order: 1000

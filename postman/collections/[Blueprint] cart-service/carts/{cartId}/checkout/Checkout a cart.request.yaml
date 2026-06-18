@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/:cartId/checkout"
+method: POST
+headers:
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: string
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Checkout a cart.resources/examples
+order: 1000

@@ -1,0 +1,15 @@
+$kind: http-request
+name: '5 - Get cart with items'
+method: GET
+url: '{{baseUrl}}/carts/{{cartId}}'
+order: 5000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status is 200", () => pm.response.to.have.status(200));
+      pm.test("Cart has items and total", () => {
+        const json = pm.response.json();
+        pm.expect(json.items).to.be.an("array").with.length.above(0);
+        pm.expect(json.total).to.be.a("number");
+      });

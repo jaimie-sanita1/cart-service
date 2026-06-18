@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+  method: DELETE
+  headers:
+    Accept: application/json
+  pathVariables:
+    cartId: string
+    itemId: string
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "code": "NOT_FOUND",
+        "message": "Cart not found"
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "NOT_FOUND"
+          },
+          "message": {
+            "type": "string",
+            "example": "Cart not found"
+          }
+        }
+      }
+order: 2000

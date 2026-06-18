@@ -1,0 +1,14 @@
+$kind: http-request
+name: '7 - Create second cart (setup)'
+method: POST
+url: '{{baseUrl}}/carts'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status is 201", () => pm.response.to.have.status(201));
+      pm.test("Second cart created", () => {
+        const json = pm.response.json();
+        pm.collectionVariables.set("secondCartId", json.id);
+      });
