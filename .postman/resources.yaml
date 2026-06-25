@@ -1,12 +1,8 @@
 workspace:
   id: 577d629c-9b7d-478f-acb1-97c5413bb366
-
 localResources:
   specs:
     - ../cart.yaml
-
-# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
-
 cloudResources:
   collections:
     ../postman/collections/[Baseline] cart-service: 52538155-864ff4d0-3683-4a3c-b9ca-1d78de91d297
