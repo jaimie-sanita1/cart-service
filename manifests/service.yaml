@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: js-cart-service
+  labels:
+    app: js-cart-service
+spec:
+  type: ClusterIP
+  selector:
+    app: js-cart-service
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3001
