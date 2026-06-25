@@ -1,7 +1,11 @@
-# Use this workspace to collaborate
 workspace:
   id: 577d629c-9b7d-478f-acb1-97c5413bb366
-
 localResources:
   specs:
     - ../cart.yaml
+cloudResources:
+  collections:
+    ../postman/collections/[Baseline] cart-service: 52538155-864ff4d0-3683-4a3c-b9ca-1d78de91d297
+    ../postman/collections/[Blueprint] cart-service: 52538155-84e53afe-4bbc-450d-859f-2d95b13f0606
+  specs:
+    ../cart.yaml: a08b042b-59ea-4dfc-a267-42133bdf6106
