@@ -3,6 +3,8 @@ info:
   title: Cart API
   description: A simple e-commerce cart API for managing carts, items, and checkout.
   version: 1.0.0
+security:
+  - bearerAuth: []
 
 servers:
   - url: http://localhost:3001
