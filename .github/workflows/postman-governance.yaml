@@ -1,0 +1,22 @@
+name: Postman Governance
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint-spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Postman CLI
+        run: curl -o- "https://dl-cli.pstmn.io/install/unix.sh" | sh
+      - name: Login to Postman
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Lint spec
+        run: postman spec lint cart.yaml --workspace-id 577d629c-9b7d-478f-acb1-97c5413bb366 --report-events
