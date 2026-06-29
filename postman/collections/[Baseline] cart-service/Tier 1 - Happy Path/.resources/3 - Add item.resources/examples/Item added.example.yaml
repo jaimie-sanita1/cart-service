@@ -11,7 +11,7 @@ request:
     content: |-
       {
         "productId": "prod_001",
-        "quantity": 2
+        "quantity": 1
       }
 response:
   statusCode: 201
@@ -22,11 +22,11 @@ response:
     type: json
     content: |-
       {
-        "id": "item_xyz789",
+        "id": "{{$pathSegments '1'}}",
         "productId": "prod_001",
         "name": "Wireless Headphones",
         "price": 29.99,
-        "quantity": 2,
-        "subtotal": 59.98
+        "quantity": 1,
+        "subtotal": 29.99
       }
 order: 1000

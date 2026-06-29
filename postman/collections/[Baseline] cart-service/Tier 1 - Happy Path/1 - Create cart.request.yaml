@@ -1,0 +1,37 @@
+$kind: http-request
+url: "{{baseUrl}}/carts"
+method: POST
+headers:
+  x-mock-response-code: "201"
+scripts:
+  - type: afterResponse
+    code: |-
+      // Per cart.yaml: POST /carts must return 201 with a Cart object.
+      pm.test("Status is 201 Created", () => pm.response.to.have.status(201));
+
+      pm.test("Response matches Cart schema", () => {
+        const json = pm.response.json();
+        // id is required to chain subsequent requests
+        pm.expect(json.id, "cart.id must be a non-empty string").to.be.a("string").and.not.empty;
+        // A brand-new cart must start with an empty items array
+        pm.expect(json.items, "new cart should have items: []").to.be.an("array").that.is.empty;
+        // Timestamps from the Cart schema
+        pm.expect(json.createdAt, "createdAt must be ISO date-time").to.be.a("string");
+        pm.expect(json.updatedAt, "updatedAt must be ISO date-time").to.be.a("string");
+      });
+
+      // Persist cartId so downstream requests in the run can use it
+      pm.collectionVariables.set("cartId", pm.response.json().id);
+
+      pm.test('Capture cartId from response', function () {
+          try {
+              const json = pm.response.json();
+              if (json && json.id) {
+                  pm.collectionVariables.set('cartId', json.id);
+              }
+          } catch (e) {
+          }
+      })
+    language: text/javascript
+examples: ./.resources/1 - Create cart.resources/examples
+order: 1000

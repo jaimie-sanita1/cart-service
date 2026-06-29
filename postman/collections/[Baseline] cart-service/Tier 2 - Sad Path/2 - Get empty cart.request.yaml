@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/{{cartId}}"
+method: GET
+headers:
+  x-cart-state: empty
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200", () => pm.response.to.have.status(200));
+      pm.test("Cart is empty", () => {
+        const json = pm.response.json();
+        pm.expect(json.items).to.be.an("array").that.is.empty;
+      });
+
+      pm.test("Cart id matches the one we just created", () => {
+        // Guards against accidentally reading a different cart
+        pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get("cartId"));
+      });
+
+      pm.test("Empty cart total is 0", () => {
+        // total should be 0 when no items are present
+        pm.expect(pm.response.json().total).to.eql(0);
+      });
+    language: text/javascript
+examples: ./.resources/2 - Get empty cart.resources/examples
+order: 2000

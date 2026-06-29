@@ -1,0 +1,20 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts"
+  method: POST
+response:
+  statusCode: 201
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+          "id": "cart_{{$randomPhoneNumber}}",
+          "items": [],
+          "total": 0,
+          "createdAt": "2025-02-08T16:36:13.664Z",
+          "updatedAt": "2025-02-08T16:36:13.664Z"
+      }
+order: 1000
