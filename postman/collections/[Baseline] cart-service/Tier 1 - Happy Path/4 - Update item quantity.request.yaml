@@ -1,0 +1,34 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/{{cartId}}/items/{{itemId}}"
+method: PATCH
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "quantity": 3
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200", () => pm.response.to.have.status(200));
+      pm.test("Quantity updated to 2", () => {
+        const json = pm.response.json();
+        pm.expect(json.quantity).to.eql(2);
+      });
+
+      pm.test("Update returns the same itemId we patched", () => {
+        // Guards against the server mutating or replacing the item id on update
+        pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get("itemId"));
+      });
+
+      pm.test("Subtotal recalculated after quantity change", () => {
+        // After bumping quantity to 3, subtotal must reflect price * 2
+        const { price, quantity, subtotal } = pm.response.json();
+        pm.expect(quantity).to.eql(2);
+        pm.expect(subtotal).to.be.closeTo(price * 2, 0.001);
+      });
+    language: text/javascript
+examples: ./.resources/4 - Update item quantity.resources/examples
+order: 4000

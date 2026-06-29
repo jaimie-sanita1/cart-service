@@ -1,6 +1,37 @@
 $kind: collection
-name: "[Baseline] cart-service"
-description: Baseline test coverage for the Cart API spec — Tier 1 happy path + Tier 2 negative/cleanup
+description: |-
+  # Baseline — cart-service
+
+  This collection establishes the **baseline happy-path test suite** for the `cart-service` API. It exercises the core end-to-end shopping cart workflow against a running instance of the service (default: `{{baseUrl}}` = `http://localhost:3001`) and validates that each step returns the expected status codes and response shape.
+
+  ## Purpose
+
+  - Serve as the canonical regression suite for the cart-service happy path.
+  - Confirm that a customer can successfully create a cart, add and modify items, and complete checkout without errors.
+  - Provide a reliable smoke-test that can be run locally, in CI, or via a Postman monitor against any environment (e.g. `Production`, `QA`).
+
+  ## What it covers
+
+  The **Tier 1 - Happy Path** folder runs the following requests in order:
+
+  1. **Create cart** — `POST /carts` — creates a new cart and stores its id in `cartId`.
+  2. **Get empty cart** — `GET /carts/{{cartId}}` — verifies the newly created cart is empty.
+  3. **Add item** — adds a product (`{{productId}}`) to the cart and captures `itemId`.
+  4. **Update item quantity** — modifies the quantity of the added item.
+  5. **Get cart with items** — confirms the cart reflects the added/updated item.
+  6. **Checkout cart** — `POST /carts/{{cartId}}/checkout` — completes the purchase and asserts the order is `confirmed`.
+
+  Each request includes after-response test scripts that assert HTTP status codes and key response fields, and chain state forward via collection variables.
+
+  ## Collection variables
+
+  - `baseUrl` — base URL of the cart-service instance under test.
+  - `cartId`, `itemId`, `secondCartId`, `removableItemId` — populated at runtime by test scripts.
+  - `productId` — the product used when adding items (defaults to `prod_001`).
+
+  ## How to run
+
+  Use **Run collection** (or the Postman CLI / a monitor) to execute the requests in order. Requests must run sequentially because each step depends on variables set by the previous one.
 variables:
   baseUrl: http://localhost:3001
   cartId: ""

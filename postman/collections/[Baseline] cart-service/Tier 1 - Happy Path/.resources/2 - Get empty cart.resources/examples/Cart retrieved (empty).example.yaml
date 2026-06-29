@@ -2,6 +2,8 @@ $kind: http-example
 request:
   url: "{{baseUrl}}/carts/:cartId"
   method: GET
+  headers:
+    x-cart-state: empty
   pathVariables:
     cartId: "{{cartId}}"
   body:
@@ -16,10 +18,10 @@ response:
     type: json
     content: |-
       {
-        "id": "cart_abc123",
+        "id": "{{$pathSegments '1'}}",
         "items": [],
         "total": 0,
-        "createdAt": "2013-03-20T16:45:30.951Z",
+        "createdAt": "2025-02-08T16:36:13.664Z",
         "updatedAt": "2025-02-08T16:36:13.664Z"
       }
 order: 1000

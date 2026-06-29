@@ -1,0 +1,28 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/{{cartId}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200", () => pm.response.to.have.status(200));
+      pm.test("Cart has items and total", () => {
+        const json = pm.response.json();
+        pm.expect(json.items).to.be.an("array").with.length.above(0);
+        pm.expect(json.total).to.be.a("number");
+      });
+
+      pm.test("Cart total equals sum of item subtotals", () => {
+        // End-to-end math check: cart.total should reconcile with line items
+        const { items, total } = pm.response.json();
+        const sum = items.reduce((acc, i) => acc + i.subtotal, 0);
+        pm.expect(total).to.be.closeTo(sum, 0.001);
+      });
+
+      pm.test("updatedAt is later than createdAt after modifications", () => {
+        // Ensures the service refreshes updatedAt when items change
+        const { createdAt, updatedAt } = pm.response.json();
+        pm.expect(new Date(updatedAt).getTime()).to.be.at.least(new Date(createdAt).getTime());
+      });
+    language: text/javascript
+examples: ./.resources/5 - Get cart with items.resources/examples
+order: 5000

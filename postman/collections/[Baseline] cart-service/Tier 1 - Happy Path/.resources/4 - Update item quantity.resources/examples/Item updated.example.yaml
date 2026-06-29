@@ -1,0 +1,32 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+  method: PATCH
+  headers:
+    Content-Type: application/json
+  pathVariables:
+    cartId: "{{cartId}}"
+    itemId: "{{itemId}}"
+  body:
+    type: json
+    content: |-
+      {
+        "quantity": 2
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "item_xyz789",
+        "productId": "prod_001",
+        "name": "Wireless Headphones",
+        "price": 29.99,
+        "quantity": 2,
+        "subtotal": 59.98
+      }
+order: 1000

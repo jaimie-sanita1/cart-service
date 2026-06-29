@@ -1,0 +1,32 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/{{cartId}}/checkout"
+method: POST
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200", () => pm.response.to.have.status(200));
+      pm.test("Order confirmed", () => {
+        const json = pm.response.json();
+        pm.expect(json.id).to.be.a("string");
+        pm.expect(json.status).to.eql("confirmed");
+      });
+
+      pm.test("Order is linked to the cart we checked out", () => {
+        // Order.cartId must match the cart we just submitted
+        pm.expect(pm.response.json().cartId).to.eql(pm.collectionVariables.get("cartId"));
+      });
+
+      pm.test("Order total and items mirror the final cart state", () => {
+        // The order snapshot should preserve what the customer paid for
+        const json = pm.response.json();
+        pm.expect(json.items, "order.items must be a non-empty array").to.be.an("array").with.length.above(0);
+        pm.expect(json.total, "order.total must be a number").to.be.a("number");
+      });
+
+      pm.test("Order.status is one of the allowed enum values", () => {
+        // cart.yaml enum: confirmed | processing | shipped | delivered
+        pm.expect(["confirmed", "processing", "shipped", "delivered"]).to.include(pm.response.json().status);
+      });
+    language: text/javascript
+examples: ./.resources/6 - Checkout cart.resources/examples
+order: 6000

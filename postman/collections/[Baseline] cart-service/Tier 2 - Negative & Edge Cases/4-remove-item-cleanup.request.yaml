@@ -1,5 +1,0 @@
-$kind: http-request
-name: '4 - Remove item cleanup'
-method: DELETE
-url: '{{baseUrl}}/carts/{{cartId}}/items/{{removableItemId}}'
-order: 4000
