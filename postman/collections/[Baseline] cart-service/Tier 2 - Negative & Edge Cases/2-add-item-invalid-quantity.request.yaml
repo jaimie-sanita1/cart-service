@@ -1,0 +1,15 @@
+$kind: http-request
+name: '2 - Add item invalid quantity'
+method: POST
+url: '{{baseUrl}}/carts/{{cartId}}/items'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": "{{productId}}",
+      "quantity": 0
+    }

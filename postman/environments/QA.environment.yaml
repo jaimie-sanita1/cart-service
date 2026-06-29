@@ -1,5 +1,5 @@
 name: QA
 values:
   - key: baseUrl
-    value: ''
+    value: http://localhost:3001
 color: 120

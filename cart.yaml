@@ -144,6 +144,13 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Optional bearer token (not enforced by cart-service)
+
   parameters:
     cartId:
       name: cartId

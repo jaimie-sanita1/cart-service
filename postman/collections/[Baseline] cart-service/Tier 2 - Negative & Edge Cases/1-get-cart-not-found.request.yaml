@@ -1,0 +1,5 @@
+$kind: http-request
+name: '1 - Get cart not found'
+method: GET
+url: '{{baseUrl}}/carts/cart_invalid_demo_id'
+order: 1000
