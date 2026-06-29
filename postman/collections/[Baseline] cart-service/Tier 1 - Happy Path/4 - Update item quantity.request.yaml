@@ -1,4 +1,5 @@
 $kind: http-request
+name: 4 - Update item quantity
 url: "{{baseUrl}}/carts/{{cartId}}/items/{{itemId}}"
 method: PATCH
 headers:
@@ -13,9 +14,9 @@ scripts:
   - type: afterResponse
     code: |-
       pm.test("Status is 200", () => pm.response.to.have.status(200));
-      pm.test("Quantity updated to 2", () => {
+      pm.test("Quantity updated to 3", () => {
         const json = pm.response.json();
-        pm.expect(json.quantity).to.eql(2);
+        pm.expect(json.quantity).to.eql(3);
       });
 
       pm.test("Update returns the same itemId we patched", () => {
@@ -26,8 +27,8 @@ scripts:
       pm.test("Subtotal recalculated after quantity change", () => {
         // After bumping quantity to 3, subtotal must reflect price * 2
         const { price, quantity, subtotal } = pm.response.json();
-        pm.expect(quantity).to.eql(2);
-        pm.expect(subtotal).to.be.closeTo(price * 2, 0.001);
+        pm.expect(quantity).to.eql(3);
+        pm.expect(subtotal).to.be.closeTo(price * 3, 0.001);
       });
     language: text/javascript
 examples: ./.resources/4 - Update item quantity.resources/examples
