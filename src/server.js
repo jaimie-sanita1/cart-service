@@ -35,12 +35,6 @@ app.get("/carts/:cartId", (req, res) => {
   return res.status(200).json(cart);
 });
 
-app.delete("/carts/:cartId", (req, res) => {
-  const deleted = store.deleteCart(req.params.cartId);
-  if (!deleted) return notFound(res, "Cart not found");
-  return res.status(204).send();
-});
-
 app.post("/carts/:cartId/items", (req, res) => {
   const { productId, quantity } = req.body || {};
   if (!productId || !Number.isInteger(quantity) || quantity < 1) {
@@ -67,13 +61,6 @@ app.patch("/carts/:cartId/items/:itemId", (req, res) => {
   if (result === null) return notFound(res, "Cart not found");
   if (result === undefined) return notFound(res, "Item not found");
   return res.status(200).json(result);
-});
-
-app.delete("/carts/:cartId/items/:itemId", (req, res) => {
-  const result = store.removeItem(req.params.cartId, req.params.itemId);
-  if (result === null) return notFound(res, "Cart not found");
-  if (result === undefined) return notFound(res, "Item not found");
-  return res.status(204).send();
 });
 
 app.post("/carts/:cartId/checkout", (req, res) => {

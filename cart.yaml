@@ -44,18 +44,6 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
-    delete:
-      summary: Delete a cart
-      operationId: deleteCart
-      parameters:
-        - $ref: '#/components/parameters/cartId'
-      responses:
-        '204':
-          description: Cart deleted
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
 
   /carts/{cartId}/items:
     post:
@@ -101,19 +89,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CartItem'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-    delete:
-      summary: Remove an item from a cart
-      operationId: removeItem
-      parameters:
-        - $ref: '#/components/parameters/cartId'
-        - $ref: '#/components/parameters/itemId'
-      responses:
-        '204':
-          description: Item removed
         '404':
           $ref: '#/components/responses/NotFound'
         '500':

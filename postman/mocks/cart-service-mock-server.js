@@ -9,10 +9,8 @@
 // Supported response codes per endpoint:
 //   POST   /carts                              → default 201; supports 500
 //   GET    /carts/:cartId                      → default 200; supports 404, 500
-//   DELETE /carts/:cartId                      → default 204; supports 404, 500
 //   POST   /carts/:cartId/items                → default 201; supports 404, 500
 //   PATCH  /carts/:cartId/items/:itemId        → default 200; supports 404, 500
-//   DELETE /carts/:cartId/items/:itemId        → default 204; supports 404, 500
 //   POST   /carts/:cartId/checkout             → default 200; supports 409, 404, 500
 //
 // Bodies below are the literal JSON strings copied from the [Blueprint]
@@ -22,7 +20,6 @@ const http = require('http');
 const PORT = process.env.PORT || 4500;
 
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
-const TEXT_HEADERS = { 'Content-Type': 'text/plain' };
 
 // ---- Response bodies (verbatim from example.yaml files) --------------------
 
@@ -112,12 +109,6 @@ const getCartResponses = {
   500: { headers: JSON_HEADERS, body: NOT_FOUND_BODY },
 };
 
-const deleteCartResponses = {
-  204: { headers: TEXT_HEADERS, body: '' },
-  404: { headers: JSON_HEADERS, body: NOT_FOUND_BODY },
-  500: { headers: JSON_HEADERS, body: NOT_FOUND_BODY },
-};
-
 const addItemResponses = {
   201: { headers: JSON_HEADERS, body: ITEM_BODY },
   404: { headers: JSON_HEADERS, body: NOT_FOUND_BODY },
@@ -126,12 +117,6 @@ const addItemResponses = {
 
 const updateItemResponses = {
   200: { headers: JSON_HEADERS, body: ITEM_BODY },
-  404: { headers: JSON_HEADERS, body: NOT_FOUND_BODY },
-  500: { headers: JSON_HEADERS, body: NOT_FOUND_BODY },
-};
-
-const removeItemResponses = {
-  204: { headers: TEXT_HEADERS, body: '' },
   404: { headers: JSON_HEADERS, body: NOT_FOUND_BODY },
   500: { headers: JSON_HEADERS, body: NOT_FOUND_BODY },
 };
@@ -201,11 +186,6 @@ const server = http.createServer((req, res) => {
     return send(res, pickResponse({ default: 200, responses: getCartResponses }, req));
   }
 
-  // @endpoint DELETE /carts/:cartId
-  if (req.method === 'DELETE' && /^\/carts\/([^/]+)$/.test(pathname)) {
-    return send(res, pickResponse({ default: 204, responses: deleteCartResponses }, req));
-  }
-
   // @endpoint POST /carts/:cartId/items
   if (req.method === 'POST' && /^\/carts\/([^/]+)\/items$/.test(pathname)) {
     return send(res, pickResponse({ default: 201, responses: addItemResponses }, req));
@@ -236,11 +216,6 @@ const server = http.createServer((req, res) => {
       }
       return send(res, picked);
     });
-  }
-
-  // @endpoint DELETE /carts/:cartId/items/:itemId
-  if (req.method === 'DELETE' && /^\/carts\/([^/]+)\/items\/([^/]+)$/.test(pathname)) {
-    return send(res, pickResponse({ default: 204, responses: removeItemResponses }, req));
   }
 
   // @endpoint POST /carts/:cartId/checkout

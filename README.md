@@ -6,10 +6,8 @@ Simple Node.js checkout flow service built with Express and in-memory state.
 
 - `POST /carts` create cart
 - `GET /carts/:cartId` fetch cart
-- `DELETE /carts/:cartId` delete cart
 - `POST /carts/:cartId/items` add item
 - `PATCH /carts/:cartId/items/:itemId` update quantity
-- `DELETE /carts/:cartId/items/:itemId` remove item
 - `POST /carts/:cartId/checkout` checkout cart
 - `GET /healthz` container health check endpoint
 

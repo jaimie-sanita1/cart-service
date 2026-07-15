@@ -38,10 +38,6 @@ function getCart(cartId) {
   return carts.get(cartId) || null;
 }
 
-function deleteCart(cartId) {
-  return carts.delete(cartId);
-}
-
 function addItem(cartId, payload) {
   const cart = getCart(cartId);
   if (!cart) return null;
@@ -77,19 +73,6 @@ function updateItemQuantity(cartId, itemId, quantity) {
   return item;
 }
 
-function removeItem(cartId, itemId) {
-  const cart = getCart(cartId);
-  if (!cart) return null;
-
-  const index = cart.items.findIndex((candidate) => candidate.id === itemId);
-  if (index === -1) return undefined;
-
-  cart.items.splice(index, 1);
-  cart.total = cartTotal(cart.items);
-  cart.updatedAt = nowIso();
-  return true;
-}
-
 function checkout(cartId) {
   const cart = getCart(cartId);
   if (!cart) return null;
@@ -112,9 +95,7 @@ function checkout(cartId) {
 module.exports = {
   createCart,
   getCart,
-  deleteCart,
   addItem,
   updateItemQuantity,
-  removeItem,
   checkout
 };

@@ -61,7 +61,7 @@ Show: `cart.yaml`, `postman/collections/`, `.github/workflows/`, `.postman/workf
 
 **Prompt (use verbatim):**
 
-> Read cart.yaml and the [Baseline] cart-service collection. Generate Tier 2 negative and edge-case tests: 404s, empty cart checkout (409), invalid quantity (400), and item removal cleanup. Add pm.test assertions for status codes and Error schema shape. Chain variables like cartId and itemId across requests.
+> Read cart.yaml and the [Baseline] cart-service collection. Generate Tier 2 negative and edge-case tests: 404s, empty cart checkout (409), and invalid quantity (400). Add pm.test assertions for status codes and Error schema shape. Chain variables like cartId and itemId across requests.
 
 **Then:**
 
@@ -155,5 +155,5 @@ git checkout main
 | Workspace | `577d629c-9b7d-478f-acb1-97c5413bb366` |
 | Spec (cart.yaml) | `a08b042b-59ea-4dfc-a267-42133bdf6106` |
 | Baseline collection | `52538155-864ff4d0-3683-4a3c-b9ca-1d78de91d297` |
-| Blueprint collection | `52538155-84e53afe-4bbc-450d-859f-2d95b13f0606` |
+| Blueprint collection | `52538155-1e452472-57be-45cf-947d-edca2c42dd0a` (`[Blueprint] cart-service-1`) |
 | Production environment | `52538155-d754a7a9-e250-4464-b6c1-d2cf1d97e8f6` |
