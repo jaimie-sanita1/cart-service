@@ -5,6 +5,13 @@ variables:
   baseUrl: https://js-cart-service.postmansolutions.com
   itemId: ""
   cartId: ""
+scripts:
+  - type: http:afterResponse
+    code: |-
+      pm.test("Response time is less than 800ms", function () {
+          pm.expect(pm.response.responseTime).to.be.below(800);
+      });
+    language: text/javascript
 auth:
   - id: 0457022b-45e0-47b4-ad0a-fa06f1ea30a3
     type: bearer
