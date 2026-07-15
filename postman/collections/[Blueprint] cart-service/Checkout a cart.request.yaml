@@ -29,7 +29,7 @@ scripts:
     code: |+
       function createItem(cartId) {
           pm.sendRequest({
-              url: `${pm.collectionVariables.get("baseUrl")}/carts/${cartId}/items`,
+              url: `${pm.variables.get("baseUrl")}/carts/${cartId}/items`,
               method: "POST",
               header: {
                   "Content-Type": "application/json",
@@ -57,7 +57,7 @@ scripts:
       // If cartId is undefined, create a cart first, then create item
       if (!pm.collectionVariables.get("cartId")) {
           pm.sendRequest({
-              url: `${pm.collectionVariables.get("baseUrl")}/carts`,
+              url: `${pm.variables.get("baseUrl")}/carts`,
               method: "POST",
               header: {
                   "Content-Type": "application/json",

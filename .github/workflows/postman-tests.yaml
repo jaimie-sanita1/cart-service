@@ -13,6 +13,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install
+      - name: Start cart-service
+        run: npm start &
+      - name: Wait for service to be ready
+        run: |
+          for i in $(seq 1 15); do
+            curl -sf http://localhost:3001/healthz && break
+            echo "Waiting for service... ($i)"
+            sleep 2
+          done
       - name: Install Postman CLI
         run: curl -o- "https://dl-cli.pstmn.io/install/unix.sh" | sh
       - name: Login to Postman
