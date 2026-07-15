@@ -5,7 +5,7 @@ localResources:
     - ../cart.yaml
 cloudResources:
   collections:
-    ../postman/collections/[Blueprint] cart-service-1: 52538155-1e452472-57be-45cf-947d-edca2c42dd0a
+    ../postman/collections/[Blueprint] cart-service: 52538155-eac25291-0f3c-42b2-8ca8-a81d1d56f4e6
   specs:
     ../cart.yaml: a08b042b-59ea-4dfc-a267-42133bdf6106
   environments:
