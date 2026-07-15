@@ -3,7 +3,11 @@ request:
   url: "{{baseUrl}}/carts"
   method: POST
   headers:
-    Accept: application/json
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
   body:
     type: text
     content: ""

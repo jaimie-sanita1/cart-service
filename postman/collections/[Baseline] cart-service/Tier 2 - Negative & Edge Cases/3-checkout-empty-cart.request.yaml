@@ -1,5 +1,0 @@
-$kind: http-request
-name: '3 - Checkout empty cart'
-method: POST
-url: '{{baseUrl}}/carts/{{secondCartId}}/checkout'
-order: 3000

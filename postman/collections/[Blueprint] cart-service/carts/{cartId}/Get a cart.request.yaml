@@ -1,12 +1,12 @@
 $kind: http-request
-name: Get a cart
 url: "{{baseUrl}}/carts/:cartId"
 method: GET
 headers:
   Accept: application/json
 pathVariables:
   - key: cartId
-    value: '{{cartId}}'
+    value: "{{cartId}}"
+    disabled: false
     $type: |-
       {
         "type": "object",
@@ -23,11 +23,8 @@ pathVariables:
 body:
   type: text
   content: ""
-examples: ./.resources/Get a cart.resources/examples
-order: 1000
 scripts:
   - type: afterResponse
-    language: text/javascript
     code: |-
       pm.test('Status is 200', () => pm.response.to.have.status(200));
       pm.test('Response is JSON with cart shape', () => {
@@ -36,3 +33,6 @@ scripts:
         pm.expect(json.items).to.be.an('array');
         pm.expect(json.total).to.be.a('number');
       });
+    language: text/javascript
+examples: ./.resources/Get a cart.resources/examples
+order: 1000

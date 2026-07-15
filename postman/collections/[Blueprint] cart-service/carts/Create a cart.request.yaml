@@ -1,23 +1,13 @@
 $kind: http-request
-name: Create a cart
 url: "{{baseUrl}}/carts"
 method: POST
 headers:
-  - key: Accept
-    value: application/json
-    disabled: false
-  - key: x-mock-response-code
-    value: "500"
-    disabled: true
-    description: ""
+  Accept: application/json
 body:
   type: text
   content: ""
-examples: ./.resources/Create a cart.resources/examples
-order: 1000
 scripts:
   - type: afterResponse
-    language: text/javascript
     code: |-
       pm.test('Status is 201', () => pm.response.to.have.status(201));
       pm.test('Response has cart id', () => {
@@ -25,3 +15,6 @@ scripts:
         pm.expect(json.id).to.be.a('string').and.not.empty;
         pm.collectionVariables.set('cartId', json.id);
       });
+    language: text/javascript
+examples: ./.resources/Create a cart.resources/examples
+order: 1000

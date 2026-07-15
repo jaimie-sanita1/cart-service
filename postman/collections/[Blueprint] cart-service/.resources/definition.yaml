@@ -1,5 +1,4 @@
 $kind: collection
-name: "[Blueprint] cart-service"
 description: A simple e-commerce cart API for managing carts, items, and checkout.
 variables:
   baseUrl: http://localhost:3001
@@ -15,3 +14,7 @@ scripts:
         pm.expect(pm.response.code).to.be.a('number');
       });
     language: text/javascript
+auth:
+  - id: b1811efb-8d20-41ee-abd4-922007b4d498
+    type: bearer
+    name: bearer auth

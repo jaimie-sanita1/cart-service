@@ -1,12 +1,12 @@
 $kind: http-request
-name: Checkout a cart
 url: "{{baseUrl}}/carts/:cartId/checkout"
 method: POST
 headers:
   Accept: application/json
 pathVariables:
   - key: cartId
-    value: '{{cartId}}'
+    value: "{{cartId}}"
+    disabled: false
     $type: |-
       {
         "type": "object",
@@ -23,11 +23,8 @@ pathVariables:
 body:
   type: text
   content: ""
-examples: ./.resources/Checkout a cart.resources/examples
-order: 1000
 scripts:
   - type: afterResponse
-    language: text/javascript
     code: |-
       pm.test('Status is 200', () => pm.response.to.have.status(200));
       pm.test('Order is confirmed', () => {
@@ -36,3 +33,6 @@ scripts:
         pm.expect(json.status).to.eql('confirmed');
         pm.expect(json.total).to.be.a('number');
       });
+    language: text/javascript
+examples: ./.resources/Checkout a cart.resources/examples
+order: 1000

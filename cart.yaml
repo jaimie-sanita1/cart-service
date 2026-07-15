@@ -142,7 +142,6 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           $ref: '#/components/responses/InternalServerError'
-
 components:
   securitySchemes:
     bearerAuth:

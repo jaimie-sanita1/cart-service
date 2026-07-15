@@ -2,6 +2,10 @@ $kind: http-example
 request:
   url: "{{baseUrl}}/carts/:cartId/items/:itemId"
   method: DELETE
+  headers:
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
   pathVariables:
     cartId: string
     itemId: string
