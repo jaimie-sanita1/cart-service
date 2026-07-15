@@ -1,0 +1,66 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: "{{cartId}}"
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+  - key: itemId
+    value: "{{itemId}}"
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "quantity": 3
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "example": 3
+        }
+      },
+      "required": [
+        "quantity"
+      ]
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status is 200', () => pm.response.to.have.status(200));
+      pm.test('Quantity reflects request body (3)', () => {
+        const json = pm.response.json();
+        pm.expect(json.quantity).to.eql(3);
+      });
+    language: text/javascript
+examples: ./.resources/Update item quantity.resources/examples
+order: 5000

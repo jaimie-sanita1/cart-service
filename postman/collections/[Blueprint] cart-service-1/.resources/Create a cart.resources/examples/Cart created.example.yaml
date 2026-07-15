@@ -1,0 +1,100 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts"
+  method: POST
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "cart_abc123",
+        "items": [
+          {
+            "id": "item_xyz789",
+            "productId": "prod_001",
+            "name": "Wireless Headphones",
+            "price": 29.99,
+            "quantity": 2,
+            "subtotal": 59.98
+          },
+          {
+            "id": "item_xyz789",
+            "productId": "prod_001",
+            "name": "Wireless Headphones",
+            "price": 29.99,
+            "quantity": 2,
+            "subtotal": 59.98
+          }
+        ],
+        "total": 59.97,
+        "createdAt": "2020-08-01T10:43:22.869Z",
+        "updatedAt": "1974-07-10T00:07:02.449Z"
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cart_abc123"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "item_xyz789"
+                },
+                "productId": {
+                  "type": "string",
+                  "example": "prod_001"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Wireless Headphones"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 29.99,
+                  "format": "float"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "example": 2
+                },
+                "subtotal": {
+                  "type": "number",
+                  "example": 59.98,
+                  "format": "float"
+                }
+              }
+            }
+          },
+          "total": {
+            "type": "number",
+            "example": 59.97,
+            "format": "float"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+order: 1000

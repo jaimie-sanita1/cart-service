@@ -7,7 +7,7 @@ security:
   - bearerAuth: []
 
 servers:
-  - url: http://localhost:3001
+  - url: https://js-cart-service.postmansolutions.com
     description: Mock Server
 
 # TODO: Add /products endpoints in a future iteration to support product browsing and search.
@@ -142,6 +142,7 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           $ref: '#/components/responses/InternalServerError'
+          
 components:
   securitySchemes:
     bearerAuth:

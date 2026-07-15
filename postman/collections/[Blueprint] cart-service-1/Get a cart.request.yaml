@@ -1,0 +1,41 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/:cartId"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: "{{cartId}}"
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status is 200', () => pm.response.to.have.status(200));
+      pm.test('Response is JSON with cart shape', () => {
+        const json = pm.response.json();
+        pm.expect(json.id).to.be.a('string');
+        pm.expect(json.items).to.be.an('array');
+        pm.expect(json.total).to.be.a('number');
+      });
+
+      pm.test("Content-Type is present", function () {
+          pm.response.to.have.header("Content-Type");
+      });
+
+      pm.test("Response time is less than 200ms", function () {
+          pm.expect(pm.response.responseTime).to.be.below(200);
+      });
+    language: text/javascript
+examples: ./.resources/Get a cart.resources/examples
+order: 2000
