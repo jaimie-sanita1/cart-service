@@ -43,9 +43,12 @@ body:
 scripts:
   - type: afterResponse
     code: |-
-      pm.test('Status is 204', () => pm.response.to.have.status(204));
-      pm.test('Response body is empty', () => {
-        pm.expect(pm.response.text() || '').to.eql('');
+      pm.test("Status code is 204", function () {
+          pm.response.to.have.status(204);
+      });
+
+      pm.test("Response body is empty", function () {
+          pm.expect(pm.response.text()).to.eql("");
       });
 
       pm.collectionVariables.unset("itemId");
