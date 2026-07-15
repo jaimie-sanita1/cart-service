@@ -1,0 +1,65 @@
+$kind: http-request
+name: Delete a cart
+url: "{{baseUrl}}/carts/:cartId"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: "{{cartId}}"
+    disabled: false
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "default": "<string>"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status is 204', () => pm.response.to.have.status(204));
+      pm.test('Response body is empty', () => {
+        pm.expect(pm.response.text() || '').to.eql('');
+      });
+    language: text/javascript
+  - type: beforeRequest
+    code: |-
+      // If cartId is undefined, create a cart first, then create item
+      if (!pm.collectionVariables.get("cartId")) {
+          pm.sendRequest({
+              url: `${pm.collectionVariables.get("baseUrl")}/carts`,
+              method: "POST",
+              header: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+              },
+              body: {
+                  mode: "raw",
+                  raw: JSON.stringify({})
+              }
+          }, (err, res) => {
+              if (err) {
+                  console.error("Failed to create cart:", err);
+                  return;
+              }
+
+              const cart = res.json();
+              pm.collectionVariables.set("cartId", cart.id);
+              console.log("Created cart:", cart.id); 
+              });
+              } else {
+                  console.log("Using existing cartId:", pm.collectionVariables.get("cartId"));
+                  }
+    language: text/javascript
+examples: ./.resources/Delete a cart.resources/examples
+order: 7000

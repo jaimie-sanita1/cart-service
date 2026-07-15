@@ -1,0 +1,13 @@
+$kind: collection
+name: "[Blueprint] cart-service"
+description: A simple e-commerce cart API for managing carts, items, and checkout.
+variables:
+  baseUrl: ""
+  itemId: ""
+  cartId: ""
+auth:
+  - id: 0457022b-45e0-47b4-ad0a-fa06f1ea30a3
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{bearerToken}}"

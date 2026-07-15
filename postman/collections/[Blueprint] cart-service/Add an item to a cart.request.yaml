@@ -1,0 +1,71 @@
+$kind: http-request
+name: Add an item to a cart
+url: "{{baseUrl}}/carts/:cartId/items"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: "{{cartId}}"
+    disabled: false
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "default": "<string>"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "productId": "prod_001",
+      "quantity": 2
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "example": "prod_001"
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "example": 2
+        }
+      },
+      "required": [
+        "productId",
+        "quantity"
+      ]
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      // save the `itemId` returned in the response as a collection variables
+      var jsonData = pm.response.json();
+      pm.collectionVariables.set("itemId", jsonData.title);
+
+      pm.test('Status is 201', () => pm.response.to.have.status(201));
+      pm.test('Response has item id and product info', () => {
+        const json = pm.response.json();
+        pm.expect(json.id).to.be.a('string').and.not.empty;
+        pm.expect(json.productId).to.be.a('string');
+        pm.expect(json.quantity).to.be.a('number');
+        pm.collectionVariables.set('itemId', json.id);
+      });
+    language: text/javascript
+  - type: beforeRequest
+    code: ""
+    language: text/javascript
+examples: ./.resources/Add an item to a cart.resources/examples
+order: 3000
