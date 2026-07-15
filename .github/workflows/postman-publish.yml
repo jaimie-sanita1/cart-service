@@ -14,5 +14,22 @@ jobs:
         run: curl -o- "https://dl-cli.pstmn.io/install/unix.sh" | sh
       - name: Login to Postman
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-      - name: Publish changes to Cloud
-        run: postman workspace push --yes
+      - name: Push Postman workspace without mocks
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -d postman/mocks ]; then
+            echo "Temporarily excluding local mocks from CI push"
+            mv postman/mocks postman/mocks.ci-skip
+          fi
+
+          cleanup() {
+            if [ -d postman/mocks.ci-skip ]; then
+              mv postman/mocks.ci-skip postman/mocks
+            fi
+          }
+
+          trap cleanup EXIT
+
+          postman workspace push --yes
