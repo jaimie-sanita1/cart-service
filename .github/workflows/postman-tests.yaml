@@ -33,4 +33,4 @@ jobs:
       - name: Login to Postman
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Run collection
-        run: postman collection run 52538155-eac25291-0f3c-42b2-8ca8-a81d1d56f4e6 --report-events
+        run: postman collection run 52538155-eac25291-0f3c-42b2-8ca8-a81d1d56f4e6 -e 52538155-d754a7a9-e250-4464-b6c1-d2cf1d97e8f6 --report-events
