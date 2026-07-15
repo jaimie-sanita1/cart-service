@@ -142,6 +142,21 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /products:
+    summary: Browsing products available for purchase
+    get:
+      summary: Retrieved products successfully
+      responses:
+        '200':
+          description: Retrieves products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
           
 components:
   securitySchemes:
@@ -287,3 +302,19 @@ components:
         message:
           type: string
           example: Cart not found
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          example: prod_001
+        name:
+          type: string
+          example: Nike Air Max 90
+        price:
+          type: number
+          example: 129.99
+        availability:
+          type: string
+          example: in_stock

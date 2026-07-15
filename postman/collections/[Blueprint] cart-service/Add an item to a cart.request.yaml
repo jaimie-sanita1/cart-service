@@ -1,5 +1,4 @@
 $kind: http-request
-name: Add an item to a cart
 url: "{{baseUrl}}/carts/:cartId/items"
 method: POST
 headers:
@@ -8,14 +7,12 @@ headers:
 pathVariables:
   - key: cartId
     value: "{{cartId}}"
-    disabled: false
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string",
-            "default": "<string>"
+            "type": "string"
           }
         },
         "required": [
@@ -92,8 +89,5 @@ scripts:
           pm.expect(jsonData.subtotal).to.be.at.least(0);
       });
     language: text/javascript
-  - type: beforeRequest
-    code: ""
-    language: text/javascript
 examples: ./.resources/Add an item to a cart.resources/examples
-order: 3000
+order: 4000

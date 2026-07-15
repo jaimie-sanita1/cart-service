@@ -1,5 +1,4 @@
 $kind: http-request
-name: Remove an item from a cart
 url: "{{baseUrl}}/carts/:cartId/items/:itemId"
 method: DELETE
 headers:
@@ -7,14 +6,12 @@ headers:
 pathVariables:
   - key: cartId
     value: "{{cartId}}"
-    disabled: false
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string",
-            "default": "<string>"
+            "type": "string"
           }
         },
         "required": [
@@ -23,14 +20,12 @@ pathVariables:
       }
   - key: itemId
     value: "{{itemId}}"
-    disabled: false
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string",
-            "default": "<string>"
+            "type": "string"
           }
         },
         "required": [
@@ -54,8 +49,5 @@ scripts:
       pm.collectionVariables.unset("itemId");
       pm.collectionVariables.unset("cartId");
     language: text/javascript
-  - type: beforeRequest
-    code: ""
-    language: text/javascript
 examples: ./.resources/Remove an item from a cart.resources/examples
-order: 5000
+order: 6000

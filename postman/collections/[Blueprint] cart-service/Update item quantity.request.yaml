@@ -1,5 +1,4 @@
 $kind: http-request
-name: Update item quantity
 url: "{{baseUrl}}/carts/:cartId/items/:itemId"
 method: PATCH
 headers:
@@ -8,14 +7,12 @@ headers:
 pathVariables:
   - key: cartId
     value: "{{cartId}}"
-    disabled: false
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string",
-            "default": "<string>"
+            "type": "string"
           }
         },
         "required": [
@@ -24,14 +21,12 @@ pathVariables:
       }
   - key: itemId
     value: "{{itemId}}"
-    disabled: false
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string",
-            "default": "<string>"
+            "type": "string"
           }
         },
         "required": [
@@ -98,4 +93,4 @@ scripts:
       });
     language: text/javascript
 examples: ./.resources/Update item quantity.resources/examples
-order: 4000
+order: 5000

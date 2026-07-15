@@ -1,5 +1,4 @@
 $kind: http-request
-name: Get a cart
 url: "{{baseUrl}}/carts/:cartId"
 method: GET
 headers:
@@ -7,14 +6,12 @@ headers:
 pathVariables:
   - key: cartId
     value: "{{cartId}}"
-    disabled: false
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string",
-            "default": "<string>"
+            "type": "string"
           }
         },
         "required": [
@@ -68,4 +65,4 @@ scripts:
       });
     language: text/javascript
 examples: ./.resources/Get a cart.resources/examples
-order: 2000
+order: 3000

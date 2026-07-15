@@ -1,5 +1,4 @@
 $kind: http-request
-name: Create a cart
 url: "{{baseUrl}}/carts"
 method: POST
 headers:
@@ -55,4 +54,4 @@ scripts:
       });
     language: text/javascript
 examples: ./.resources/Create a cart.resources/examples
-order: 1000
+order: 2000

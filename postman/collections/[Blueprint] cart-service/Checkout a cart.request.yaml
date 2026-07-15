@@ -1,5 +1,4 @@
 $kind: http-request
-name: Checkout a cart
 url: "{{baseUrl}}/carts/:cartId/checkout"
 method: POST
 headers:
@@ -7,14 +6,12 @@ headers:
 pathVariables:
   - key: cartId
     value: "{{cartId}}"
-    disabled: false
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string",
-            "default": "<string>"
+            "type": "string"
           }
         },
         "required": [
@@ -142,4 +139,4 @@ scripts:
       pm.collectionVariables.unset("cartId");
     language: text/javascript
 examples: ./.resources/Checkout a cart.resources/examples
-order: 6000
+order: 7000
