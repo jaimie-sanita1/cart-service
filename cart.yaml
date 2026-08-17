@@ -6,8 +6,8 @@ info:
   contact:
     name: API Owner
     email: test@footlocker.com
-# security:
-#   - bearerAuth: []
+security:
+  - bearerAuth: []
 
 servers:
   - url: https://js-cart-service.postmansolutions.com
