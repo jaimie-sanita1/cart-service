@@ -6,11 +6,11 @@
 workflows:
   syncSpecToCollection:
     - spec: ../cart.yaml
-      collection: '../postman/collections/[Blueprint] cart-service'
+      collection: ../postman/collections/e2e-tests
       options:
         syncExamples: false
   syncCollectionToSpec:
     - spec: ../cart.yaml
-      collection: '../postman/collections/[Blueprint] cart-service'
+      collection: ../postman/collections/e2e-tests
       options:
         syncExamples: false
