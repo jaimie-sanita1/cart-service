@@ -14,9 +14,19 @@ workflows:
       options:
         syncExamples: true
         deleteOrphanedRequests: false
+    - spec: ../cart.yaml
+      collection: ../postman/collections/smoke-tests
+      options:
+        syncExamples: false
+        deleteOrphanedRequests: false
   syncCollectionToSpec:
     - spec: ../cart.yaml
       collection: '../postman/collections/[Blueprint] cart-service'
       options:
         syncExamples: true
+        deleteOrphanedRequests: false
+    - spec: ../cart.yaml
+      collection: ../postman/collections/smoke-tests
+      options:
+        syncExamples: false
         deleteOrphanedRequests: false

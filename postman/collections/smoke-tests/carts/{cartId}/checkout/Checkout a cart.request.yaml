@@ -1,0 +1,41 @@
+$kind: http-request
+name: Checkout a cart
+description: ""
+url: "{{baseUrl}}/carts/:cartId/checkout"
+method: POST
+headers:
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: string
+    disabled: false
+    description: ""
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("Response time is less than 500ms", function () {
+          pm.expect(pm.response.responseTime).to.be.below(500);
+      });
+    language: text/javascript
+settings: {}
+examples: ./.resources/Checkout a cart.resources/examples
+order: 1000
