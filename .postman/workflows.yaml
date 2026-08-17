@@ -9,8 +9,14 @@ workflows:
       collection: ../postman/collections/e2e-tests
       options:
         syncExamples: false
+    - spec: ../cart.yaml
+      collection: '../postman/collections/[Blueprint] cart-service'
+      options:
+        syncExamples: true
+        deleteOrphanedRequests: false
   syncCollectionToSpec:
     - spec: ../cart.yaml
-      collection: ../postman/collections/e2e-tests
+      collection: '../postman/collections/[Blueprint] cart-service'
       options:
-        syncExamples: false
+        syncExamples: true
+        deleteOrphanedRequests: false
