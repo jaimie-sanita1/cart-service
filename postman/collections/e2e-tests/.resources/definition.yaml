@@ -4,7 +4,6 @@ description: A simple e-commerce cart API for managing carts, items, and checkou
 variables:
   baseUrl: https://js-cart-service.postmansolutions.com
   itemId: ""
-  cartId: ""
 scripts:
   - type: http:afterResponse
     code: |-
