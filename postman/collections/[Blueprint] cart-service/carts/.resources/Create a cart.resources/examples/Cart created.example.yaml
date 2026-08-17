@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts"
+  method: POST
+  headers:
+    Accept: application/json
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "cart_abc123",
+        "items": [
+          {
+            "id": "item_xyz789",
+            "productId": "prod_001",
+            "name": "Wireless Headphones",
+            "price": 29.99,
+            "quantity": 2,
+            "subtotal": 59.98
+          },
+          {
+            "id": "item_xyz789",
+            "productId": "prod_001",
+            "name": "Wireless Headphones",
+            "price": 29.99,
+            "quantity": 2,
+            "subtotal": 59.98
+          }
+        ],
+        "total": 59.97,
+        "createdAt": "1956-02-27T04:45:30.453Z",
+        "updatedAt": "1974-10-04T13:40:29.567Z"
+      }
+order: 1000

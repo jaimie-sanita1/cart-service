@@ -1,0 +1,14 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+  method: DELETE
+  pathVariables:
+    cartId: string
+    itemId: string
+response:
+  statusCode: 204
+  statusText: No Content
+  body:
+    type: text
+    content: ""
+order: 1000

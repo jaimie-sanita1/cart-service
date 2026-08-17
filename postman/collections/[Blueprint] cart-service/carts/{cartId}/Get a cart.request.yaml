@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/:cartId"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  cartId: string
+settings: {}
+examples: ./.resources/Get a cart.resources/examples
+order: 3000

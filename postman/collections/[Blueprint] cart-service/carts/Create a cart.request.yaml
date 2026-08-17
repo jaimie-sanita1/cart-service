@@ -1,0 +1,8 @@
+$kind: http-request
+url: "{{baseUrl}}/carts"
+method: POST
+headers:
+  Accept: application/json
+settings: {}
+examples: ./.resources/Create a cart.resources/examples
+order: 2000

@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/:cartId/items"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  cartId: string
+body:
+  type: json
+  content: |-
+    {
+      "productId": "prod_001",
+      "quantity": 2
+    }
+settings: {}
+examples: ./.resources/Add an item to a cart.resources/examples
+order: 2000

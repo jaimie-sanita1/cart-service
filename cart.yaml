@@ -3,8 +3,11 @@ info:
   title: Cart API
   description: A simple e-commerce cart API for managing carts, items, and checkout.
   version: 1.0.0
-security:
-  - bearerAuth: []
+  contact:
+    name: API Owner
+    email: test@footlocker.com
+# security:
+#   - bearerAuth: []
 
 servers:
   - url: https://js-cart-service.postmansolutions.com
@@ -142,7 +145,49 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           $ref: '#/components/responses/InternalServerError'
-          
+  /totals: {}
+  /products:
+    get:
+      summary: Get all products
+      responses:
+        "200":
+          description: "Products retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Products"
+              examples:
+                example1:
+                  value:
+                    - id: prod_001
+                      name: Nike Air Max 90
+                      price: 129.99
+                      availability: in_stock
+                    - id: prod_002
+                      name: Adidas Samba OG
+                      price: 100
+                      availability: in_stock
+                    - id: prod_003
+                      name: New Balance 550
+                      price: 109.99
+                      availability: out_of_stock
+        "500":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      operationId: listProducts
+      description: Browse products available for purchase
+      tags:
+        - Products
+      parameters:
+        - name: param_1
+          in: query
+          schema:
+            type: string
+          required: false
+
 components:
   securitySchemes:
     bearerAuth:
@@ -287,3 +332,26 @@ components:
         message:
           type: string
           example: Cart not found
+    Products:
+      type: object
+      required:
+        - id
+        - name
+        - price
+      properties:
+        id:
+          type: string
+          example: prod_001
+        name:
+          type: string
+          example: Nike Air Max 90
+        price:
+          type: number
+          format: float
+          example: 129.99
+        availability:
+          type: string
+          enum:
+            - in_stock
+            - out_of_stock
+          example: in_stock

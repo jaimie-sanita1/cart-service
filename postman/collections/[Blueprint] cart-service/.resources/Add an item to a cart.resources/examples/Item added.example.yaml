@@ -35,36 +35,4 @@ response:
         "quantity": 2,
         "subtotal": 59.98
       }
-    $type: |-
-      {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "item_xyz789"
-          },
-          "productId": {
-            "type": "string",
-            "example": "prod_001"
-          },
-          "name": {
-            "type": "string",
-            "example": "Wireless Headphones"
-          },
-          "price": {
-            "type": "number",
-            "example": 29.99,
-            "format": "float"
-          },
-          "quantity": {
-            "type": "integer",
-            "example": 2
-          },
-          "subtotal": {
-            "type": "number",
-            "example": 59.98,
-            "format": "float"
-          }
-        }
-      }
 order: 1000

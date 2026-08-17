@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  cartId: string
+  itemId: string
+body:
+  type: json
+  content: |-
+    {
+      "quantity": 3
+    }
+settings: {}
+examples: ./.resources/Update item quantity.resources/examples
+order: 1000

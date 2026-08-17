@@ -1,0 +1,21 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts/:cartId/checkout"
+  method: POST
+  headers:
+    Accept: application/json
+  pathVariables:
+    cartId: string
+response:
+  statusCode: 409
+  statusText: Conflict
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "code": "NOT_FOUND",
+        "message": "Cart not found"
+      }
+order: 3000

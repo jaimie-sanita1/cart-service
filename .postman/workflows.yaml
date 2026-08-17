@@ -9,8 +9,10 @@ workflows:
       collection: '../postman/collections/[Blueprint] cart-service'
       options:
         syncExamples: false
+        deleteOrphanedRequests: false
   syncCollectionToSpec:
     - spec: ../cart.yaml
       collection: '../postman/collections/[Blueprint] cart-service'
       options:
         syncExamples: false
+        deleteOrphanedRequests: false

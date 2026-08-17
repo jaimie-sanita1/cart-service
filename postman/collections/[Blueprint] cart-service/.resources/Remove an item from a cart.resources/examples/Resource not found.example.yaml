@@ -26,18 +26,4 @@ response:
         "code": "NOT_FOUND",
         "message": "Cart not found"
       }
-    $type: |-
-      {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "example": "NOT_FOUND"
-          },
-          "message": {
-            "type": "string",
-            "example": "Cart not found"
-          }
-        }
-      }
 order: 2000

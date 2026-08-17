@@ -1,0 +1,11 @@
+$kind: http-request
+description: Browse products available for purchase
+url: "{{baseUrl}}/products?param_1=string"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  param_1: string
+settings: {}
+examples: ./.resources/Get all products.resources/examples
+order: 1000

@@ -1,0 +1,37 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/products?param_1=string"
+  method: GET
+  headers:
+    Accept: application/json
+  queryParams:
+    param_1: string
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id": "prod_001",
+          "name": "Nike Air Max 90",
+          "price": 129.99,
+          "availability": "in_stock"
+        },
+        {
+          "id": "prod_002",
+          "name": "Adidas Samba OG",
+          "price": 100,
+          "availability": "in_stock"
+        },
+        {
+          "id": "prod_003",
+          "name": "New Balance 550",
+          "price": 109.99,
+          "availability": "out_of_stock"
+        }
+      ]
+order: 1000

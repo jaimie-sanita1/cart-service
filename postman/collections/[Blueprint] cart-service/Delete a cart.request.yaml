@@ -1,26 +1,10 @@
 $kind: http-request
-name: Delete a cart
 url: "{{baseUrl}}/carts/:cartId"
 method: DELETE
 headers:
   Accept: application/json
 pathVariables:
-  - key: cartId
-    value: "{{cartId}}"
-    disabled: false
-    $type: |-
-      {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "string",
-            "default": "<string>"
-          }
-        },
-        "required": [
-          "value"
-        ]
-      }
+  cartId: "{{cartId}}"
 body:
   type: text
   content: ""
@@ -65,4 +49,4 @@ scripts:
                   }
     language: text/javascript
 examples: ./.resources/Delete a cart.resources/examples
-order: 7000
+order: 9000
