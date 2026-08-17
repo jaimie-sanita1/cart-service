@@ -1,7 +1,7 @@
 $kind: http-example
 request:
-  url: "{{baseUrl}}/carts/:cartId"
-  method: GET
+  url: "{{baseUrl}}/carts/:cartId/checkout"
+  method: POST
   headers:
     - key: Accept
       value: application/json
@@ -22,7 +22,8 @@ response:
     type: json
     content: |-
       {
-        "id": "cart_abc123",
+        "id": "order_def456",
+        "cartId": "cart_abc123",
         "items": [
           {
             "id": "item_xyz789",
@@ -42,14 +43,18 @@ response:
           }
         ],
         "total": 59.97,
-        "createdAt": "1987-02-07T20:52:16.444Z",
-        "updatedAt": "1951-10-15T02:32:23.065Z"
+        "status": "confirmed",
+        "createdAt": "2004-10-31T14:38:07.844Z"
       }
     $type: |-
       {
         "type": "object",
         "properties": {
           "id": {
+            "type": "string",
+            "example": "order_def456"
+          },
+          "cartId": {
             "type": "string",
             "example": "cart_abc123"
           },
@@ -92,11 +97,17 @@ response:
             "example": 59.97,
             "format": "float"
           },
-          "createdAt": {
+          "status": {
             "type": "string",
-            "format": "date-time"
+            "enum": [
+              "confirmed",
+              "processing",
+              "shipped",
+              "delivered"
+            ],
+            "example": "confirmed"
           },
-          "updatedAt": {
+          "createdAt": {
             "type": "string",
             "format": "date-time"
           }

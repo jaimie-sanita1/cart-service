@@ -1,6 +1,5 @@
 $kind: http-request
 name: Delete a cart
-description: ""
 url: "{{baseUrl}}/carts/:cartId"
 method: DELETE
 headers:
@@ -8,13 +7,14 @@ headers:
 pathVariables:
   - key: cartId
     value: "{{cartId}}"
-    description: ""
+    disabled: false
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
-            "type": "string"
+            "type": "string",
+            "default": "<string>"
           }
         },
         "required": [
@@ -25,6 +25,16 @@ body:
   type: text
   content: ""
 scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 204", function () {
+          pm.response.to.have.status(204);
+      });
+
+      pm.test("Response body is empty", function () {
+          pm.expect(pm.response.text()).to.eql("");
+      });
+    language: text/javascript
   - type: beforeRequest
     code: |-
       // If cartId is undefined, create a cart first, then create item
@@ -54,6 +64,5 @@ scripts:
                   console.log("Using existing cartId:", pm.collectionVariables.get("cartId"));
                   }
     language: text/javascript
-settings: {}
 examples: ./.resources/Delete a cart.resources/examples
 order: 7000

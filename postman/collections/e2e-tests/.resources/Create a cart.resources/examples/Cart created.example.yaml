@@ -1,21 +1,19 @@
 $kind: http-example
 request:
-  url: "{{baseUrl}}/carts/:cartId"
-  method: GET
+  url: "{{baseUrl}}/carts"
+  method: POST
   headers:
     - key: Accept
       value: application/json
     - key: Authorization
       value: Bearer <token>
       description: "Added as a part of security scheme: bearer"
-  pathVariables:
-    cartId: string
   body:
     type: text
     content: ""
 response:
-  statusCode: 200
-  statusText: OK
+  statusCode: 201
+  statusText: Created
   headers:
     Content-Type: application/json
   body:
@@ -42,8 +40,8 @@ response:
           }
         ],
         "total": 59.97,
-        "createdAt": "1987-02-07T20:52:16.444Z",
-        "updatedAt": "1951-10-15T02:32:23.065Z"
+        "createdAt": "2020-08-01T10:43:22.869Z",
+        "updatedAt": "1974-07-10T00:07:02.449Z"
       }
     $type: |-
       {
