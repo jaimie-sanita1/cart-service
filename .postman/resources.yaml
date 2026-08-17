@@ -1,8 +1,12 @@
 workspace:
   id: 577d629c-9b7d-478f-acb1-97c5413bb366
+
 localResources:
   specs:
     - ../cart.yaml
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
 cloudResources:
   collections:
     ../postman/collections/[Blueprint] cart-service: 52538155-eac25291-0f3c-42b2-8ca8-a81d1d56f4e6
