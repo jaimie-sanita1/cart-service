@@ -1,6 +1,6 @@
 $kind: http-request
-name: Remove an item from a cart
-url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+description: ""
+url: ://{{baseUrl}}/carts/:cartId/items/:itemId
 method: DELETE
 headers:
   Accept: application/json
@@ -8,13 +8,15 @@ pathVariables:
   - key: cartId
     value: "{{cartId}}"
     disabled: false
+    description: ""
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
+            "description": "Unique identifier for a cart.",
             "type": "string",
-            "default": "<string>"
+            "example": "cart_abc123"
           }
         },
         "required": [
@@ -24,13 +26,15 @@ pathVariables:
   - key: itemId
     value: "{{itemId}}"
     disabled: false
+    description: ""
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
+            "description": "Unique identifier for a cart item.",
             "type": "string",
-            "default": "<string>"
+            "example": "item_xyz789"
           }
         },
         "required": [
@@ -53,9 +57,6 @@ scripts:
 
       pm.collectionVariables.unset("itemId");
       pm.collectionVariables.unset("cartId");
-    language: text/javascript
-  - type: beforeRequest
-    code: ""
     language: text/javascript
 examples: ./.resources/Remove an item from a cart.resources/examples
 order: 5000

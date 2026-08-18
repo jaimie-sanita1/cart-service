@@ -1,6 +1,6 @@
 $kind: http-request
-name: Get a cart
-url: "{{baseUrl}}/carts/:cartId"
+description: ""
+url: ://{{baseUrl}}/carts/:cartId
 method: GET
 headers:
   Accept: application/json
@@ -8,13 +8,15 @@ pathVariables:
   - key: cartId
     value: "{{cartId}}"
     disabled: false
+    description: ""
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
+            "description": "Unique identifier for a cart.",
             "type": "string",
-            "default": "<string>"
+            "example": "cart_abc123"
           }
         },
         "required": [

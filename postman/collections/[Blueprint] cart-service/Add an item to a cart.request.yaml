@@ -1,6 +1,6 @@
 $kind: http-request
-name: Add an item to a cart
-url: "{{baseUrl}}/carts/:cartId/items"
+description: ""
+url: ://{{baseUrl}}/carts/:cartId/items
 method: POST
 headers:
   Content-Type: application/json
@@ -9,13 +9,15 @@ pathVariables:
   - key: cartId
     value: "{{cartId}}"
     disabled: false
+    description: ""
     $type: |-
       {
         "type": "object",
         "properties": {
           "value": {
+            "description": "Unique identifier for a cart.",
             "type": "string",
-            "default": "<string>"
+            "example": "cart_abc123"
           }
         },
         "required": [
@@ -31,16 +33,19 @@ body:
     }
   $type: |-
     {
+      "description": "Request body for adding a product to a cart.",
       "type": "object",
       "properties": {
         "productId": {
           "type": "string",
-          "example": "prod_001"
+          "example": "prod_001",
+          "description": "The identifier of the product to add."
         },
         "quantity": {
           "type": "integer",
           "minimum": 1,
-          "example": 2
+          "example": 2,
+          "description": "Number of units to add. Must be at least 1."
         }
       },
       "required": [
@@ -91,9 +96,6 @@ scripts:
           pm.expect(jsonData.quantity).to.be.at.least(1);
           pm.expect(jsonData.subtotal).to.be.at.least(0);
       });
-    language: text/javascript
-  - type: beforeRequest
-    code: ""
     language: text/javascript
 examples: ./.resources/Add an item to a cart.resources/examples
 order: 3000

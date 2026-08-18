@@ -1,12 +1,14 @@
 $kind: http-example
 request:
-  url: "{{baseUrl}}/carts/:cartId/items"
+  url: ://{{baseUrl}}/carts/:cartId/items
   method: POST
   headers:
     - key: Content-Type
       value: application/json
+      description: ""
     - key: Accept
       value: application/json
+      description: ""
     - key: Authorization
       value: Bearer <token>
       description: "Added as a part of security scheme: bearer"
@@ -25,7 +27,7 @@ response:
   headers:
     Content-Type: application/json
   body:
-    type: json
+    type: text
     content: |-
       {
         "id": "item_xyz789",
@@ -37,32 +39,39 @@ response:
       }
     $type: |-
       {
+        "description": "Represents a single product item within a cart.",
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "example": "item_xyz789"
+            "example": "item_xyz789",
+            "description": "Unique identifier for the cart item."
           },
           "productId": {
             "type": "string",
-            "example": "prod_001"
+            "example": "prod_001",
+            "description": "The identifier of the product being purchased."
           },
           "name": {
             "type": "string",
-            "example": "Wireless Headphones"
+            "example": "Wireless Headphones",
+            "description": "Display name of the product."
           },
           "price": {
             "type": "number",
             "example": 29.99,
+            "description": "Unit price of the product.",
             "format": "float"
           },
           "quantity": {
             "type": "integer",
-            "example": 2
+            "example": 2,
+            "description": "Number of units of this product in the cart."
           },
           "subtotal": {
             "type": "number",
             "example": 59.98,
+            "description": "Total price for this line item (price × quantity).",
             "format": "float"
           }
         }

@@ -1,5 +1,5 @@
 $kind: http-request
-name: Create a cart
+description: ""
 url: "{{baseUrl}}/carts"
 method: POST
 headers:

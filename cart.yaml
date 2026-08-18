@@ -3,6 +3,8 @@ info:
   title: Cart API
   description: A simple e-commerce cart API for managing carts, items, and checkout.
   version: 1.0.0
+  contact:
+    email: api-support@postmansolutions.com
 security:
   - bearerAuth: []
 
@@ -12,46 +14,87 @@ servers:
 
 # TODO: Add /products endpoints in a future iteration to support product browsing and search.
 
+tags:
+  - name: Carts
+    description: Operations for creating and managing shopping carts
+  - name: Items
+    description: Operations for managing items within a cart
+  - name: Checkout
+    description: Operations for checking out a cart and creating an order
+
 paths:
   /carts:
     post:
       summary: Create a cart
+      description: Creates a new empty shopping cart and returns the cart object.
       operationId: createCart
+      tags:
+        - Carts
       responses:
         '201':
-          description: Cart created
+          description: Cart created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Cart'
+              examples:
+                CartCreated:
+                  summary: A newly created cart
+                  value:
+                    id: cart_abc123
+                    items: []
+                    total: 0
+                    createdAt: '2024-01-15T10:00:00Z'
+                    updatedAt: '2024-01-15T10:00:00Z'
         '500':
           $ref: '#/components/responses/InternalServerError'
 
   /carts/{cartId}:
     get:
       summary: Get a cart
+      description: Retrieves a cart by its unique identifier, including all items and the current total.
       operationId: getCart
+      tags:
+        - Carts
       parameters:
         - $ref: '#/components/parameters/cartId'
       responses:
         '200':
-          description: Cart retrieved
+          description: Cart retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Cart'
+              examples:
+                CartWithItems:
+                  summary: A cart with one item
+                  value:
+                    id: cart_abc123
+                    items:
+                      - id: item_xyz789
+                        productId: prod_001
+                        name: Wireless Headphones
+                        price: 29.99
+                        quantity: 2
+                        subtotal: 59.98
+                    total: 59.98
+                    createdAt: '2024-01-15T10:00:00Z'
+                    updatedAt: '2024-01-15T10:05:00Z'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
     delete:
       summary: Delete a cart
+      description: Permanently deletes a cart and all its items by cart ID.
       operationId: deleteCart
+      tags:
+        - Carts
       parameters:
         - $ref: '#/components/parameters/cartId'
       responses:
         '204':
-          description: Cart deleted
+          description: Cart deleted successfully
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -60,22 +103,44 @@ paths:
   /carts/{cartId}/items:
     post:
       summary: Add an item to a cart
+      description: Adds a new product item to the specified cart. Returns the created cart item.
       operationId: addItem
+      tags:
+        - Items
       parameters:
         - $ref: '#/components/parameters/cartId'
       requestBody:
         required: true
+        description: The product and quantity to add to the cart.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AddItemRequest'
+            examples:
+              AddHeadphones:
+                summary: Add wireless headphones
+                value:
+                  productId: prod_001
+                  quantity: 2
       responses:
         '201':
-          description: Item added
+          description: Item added to cart successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CartItem'
+              examples:
+                ItemAdded:
+                  summary: The newly added cart item
+                  value:
+                    id: item_xyz789
+                    productId: prod_001
+                    name: Wireless Headphones
+                    price: 29.99
+                    quantity: 2
+                    subtotal: 59.98
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -84,36 +149,60 @@ paths:
   /carts/{cartId}/items/{itemId}:
     patch:
       summary: Update item quantity
+      description: Updates the quantity of a specific item in the cart. Returns the updated cart item.
       operationId: updateItemQuantity
+      tags:
+        - Items
       parameters:
         - $ref: '#/components/parameters/cartId'
         - $ref: '#/components/parameters/itemId'
       requestBody:
         required: true
+        description: The new quantity for the cart item.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateItemRequest'
+            examples:
+              UpdateQuantity:
+                summary: Update quantity to 3
+                value:
+                  quantity: 3
       responses:
         '200':
-          description: Item updated
+          description: Item quantity updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CartItem'
+              examples:
+                ItemUpdated:
+                  summary: The updated cart item
+                  value:
+                    id: item_xyz789
+                    productId: prod_001
+                    name: Wireless Headphones
+                    price: 29.99
+                    quantity: 3
+                    subtotal: 89.97
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
     delete:
       summary: Remove an item from a cart
+      description: Removes a specific item from the cart by item ID.
       operationId: removeItem
+      tags:
+        - Items
       parameters:
         - $ref: '#/components/parameters/cartId'
         - $ref: '#/components/parameters/itemId'
       responses:
         '204':
-          description: Item removed
+          description: Item removed from cart successfully
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -122,27 +211,42 @@ paths:
   /carts/{cartId}/checkout:
     post:
       summary: Checkout a cart
+      description: Processes the checkout for a cart, creating an order from the cart contents. The cart must contain at least one item.
       operationId: checkout
+      tags:
+        - Checkout
       parameters:
         - $ref: '#/components/parameters/cartId'
       responses:
         '200':
-          description: Checkout successful
+          description: Checkout completed successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
+              examples:
+                OrderConfirmed:
+                  summary: A confirmed order
+                  value:
+                    id: order_def456
+                    cartId: cart_abc123
+                    items:
+                      - id: item_xyz789
+                        productId: prod_001
+                        name: Wireless Headphones
+                        price: 29.99
+                        quantity: 2
+                        subtotal: 59.98
+                    total: 59.98
+                    status: confirmed
+                    createdAt: '2024-01-15T10:10:00Z'
         '404':
           $ref: '#/components/responses/NotFound'
         '409':
-          description: Cart is empty
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/InternalServerError'
-          
+
 components:
   securitySchemes:
     bearerAuth:
@@ -156,118 +260,190 @@ components:
       name: cartId
       in: path
       required: true
+      description: The unique identifier of the cart.
       schema:
-        type: string
+        $ref: '#/components/schemas/CartId'
     itemId:
       name: itemId
       in: path
       required: true
+      description: The unique identifier of the cart item.
       schema:
-        type: string
+        $ref: '#/components/schemas/ItemId'
 
   responses:
+    BadRequest:
+      description: Bad request — the request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            InvalidQuantity:
+              summary: Invalid quantity value
+              value:
+                code: BAD_REQUEST
+                message: Quantity must be a positive integer
     NotFound:
-      description: Resource not found
+      description: The requested resource was not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+          examples:
+            CartNotFound:
+              summary: Cart not found
+              value:
+                code: NOT_FOUND
+                message: Cart not found
+    Conflict:
+      description: Conflict — the cart is empty and cannot be checked out
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            EmptyCart:
+              summary: Cart is empty
+              value:
+                code: CONFLICT
+                message: Cart is empty and cannot be checked out
     InternalServerError:
-      description: Internal server error
+      description: An unexpected internal server error occurred
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+          examples:
+            ServerError:
+              summary: Generic server error
+              value:
+                code: INTERNAL_SERVER_ERROR
+                message: An unexpected error occurred
 
   schemas:
+    CartId:
+      type: string
+      description: Unique identifier for a cart.
+      example: cart_abc123
+
+    ItemId:
+      type: string
+      description: Unique identifier for a cart item.
+      example: item_xyz789
+
     Cart:
       type: object
+      description: Represents a shopping cart containing items and a computed total.
       properties:
         id:
           type: string
+          description: Unique identifier for the cart.
           example: cart_abc123
         items:
           type: array
+          description: List of items currently in the cart.
           items:
             $ref: '#/components/schemas/CartItem'
         total:
           type: number
           format: float
+          description: The total price of all items in the cart.
           example: 59.97
         createdAt:
           type: string
           format: date-time
+          description: ISO 8601 timestamp when the cart was created.
         updatedAt:
           type: string
           format: date-time
+          description: ISO 8601 timestamp when the cart was last updated.
 
     CartItem:
       type: object
+      description: Represents a single product item within a cart.
       properties:
         id:
           type: string
+          description: Unique identifier for the cart item.
           example: item_xyz789
         productId:
           type: string
+          description: The identifier of the product being purchased.
           example: prod_001
         name:
           type: string
+          description: Display name of the product.
           example: Wireless Headphones
         price:
           type: number
           format: float
+          description: Unit price of the product.
           example: 29.99
         quantity:
           type: integer
+          description: Number of units of this product in the cart.
           example: 2
         subtotal:
           type: number
           format: float
+          description: Total price for this line item (price × quantity).
           example: 59.98
 
     AddItemRequest:
       type: object
+      description: Request body for adding a product to a cart.
       required:
         - productId
         - quantity
       properties:
         productId:
           type: string
+          description: The identifier of the product to add.
           example: prod_001
         quantity:
           type: integer
           minimum: 1
+          description: Number of units to add. Must be at least 1.
           example: 2
 
     UpdateItemRequest:
       type: object
+      description: Request body for updating the quantity of a cart item.
       required:
         - quantity
       properties:
         quantity:
           type: integer
           minimum: 1
+          description: The new quantity for the item. Must be at least 1.
           example: 3
 
     Order:
       type: object
+      description: Represents a confirmed order created from a cart checkout.
       properties:
         id:
           type: string
+          description: Unique identifier for the order.
           example: order_def456
         cartId:
           type: string
+          description: The identifier of the cart this order was created from.
           example: cart_abc123
         items:
           type: array
+          description: List of items included in the order.
           items:
             $ref: '#/components/schemas/CartItem'
         total:
           type: number
           format: float
+          description: Total price of the order.
           example: 59.97
         status:
           type: string
+          description: Current fulfillment status of the order.
           enum:
             - confirmed
             - processing
@@ -277,13 +453,17 @@ components:
         createdAt:
           type: string
           format: date-time
+          description: ISO 8601 timestamp when the order was created.
 
     Error:
       type: object
+      description: Standard error response body returned for all error responses.
       properties:
         code:
           type: string
+          description: A machine-readable error code identifying the error type.
           example: NOT_FOUND
         message:
           type: string
+          description: A human-readable message describing the error.
           example: Cart not found

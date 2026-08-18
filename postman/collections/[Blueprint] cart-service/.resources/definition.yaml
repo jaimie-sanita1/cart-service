@@ -1,6 +1,9 @@
 $kind: collection
-name: "[Blueprint] cart-service"
-description: A simple e-commerce cart API for managing carts, items, and checkout.
+description: |-
+  A simple e-commerce cart API for managing carts, items, and checkout.
+
+  Contact Support:
+   Email: api-support@postmansolutions.com
 variables:
   baseUrl: https://js-cart-service.postmansolutions.com
   itemId: ""
@@ -13,7 +16,7 @@ scripts:
       });
     language: text/javascript
 auth:
-  - id: 0457022b-45e0-47b4-ad0a-fa06f1ea30a3
+  - id: 2da8df2b-d1fb-4e0d-89e6-d5a78b20f963
     type: bearer
     name: bearer auth
     credentials:

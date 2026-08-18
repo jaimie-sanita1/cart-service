@@ -1,10 +1,11 @@
 $kind: http-example
 request:
-  url: "{{baseUrl}}/carts/:cartId"
+  url: ://{{baseUrl}}/carts/:cartId
   method: GET
   headers:
     - key: Accept
       value: application/json
+      description: ""
     - key: Authorization
       value: Bearer <token>
       description: "Added as a part of security scheme: bearer"
@@ -19,7 +20,7 @@ response:
   headers:
     Content-Type: application/json
   body:
-    type: json
+    type: text
     content: |-
       {
         "id": "cart_abc123",
@@ -47,41 +48,51 @@ response:
       }
     $type: |-
       {
+        "description": "Represents a shopping cart containing items and a computed total.",
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "example": "cart_abc123"
+            "example": "cart_abc123",
+            "description": "Unique identifier for the cart."
           },
           "items": {
             "type": "array",
+            "description": "List of items currently in the cart.",
             "items": {
+              "description": "Represents a single product item within a cart.",
               "type": "object",
               "properties": {
                 "id": {
                   "type": "string",
-                  "example": "item_xyz789"
+                  "example": "item_xyz789",
+                  "description": "Unique identifier for the cart item."
                 },
                 "productId": {
                   "type": "string",
-                  "example": "prod_001"
+                  "example": "prod_001",
+                  "description": "The identifier of the product being purchased."
                 },
                 "name": {
                   "type": "string",
-                  "example": "Wireless Headphones"
+                  "example": "Wireless Headphones",
+                  "description": "Display name of the product."
                 },
                 "price": {
                   "type": "number",
                   "example": 29.99,
+                  "description": "Unit price of the product.",
                   "format": "float"
                 },
                 "quantity": {
                   "type": "integer",
-                  "example": 2
+                  "example": 2,
+                  "description": "Number of units of this product in the cart."
                 },
                 "subtotal": {
                   "type": "number",
                   "example": 59.98,
+                  "description": "Total price for this line item (price × quantity).",
                   "format": "float"
                 }
               }
@@ -90,14 +101,17 @@ response:
           "total": {
             "type": "number",
             "example": 59.97,
+            "description": "The total price of all items in the cart.",
             "format": "float"
           },
           "createdAt": {
             "type": "string",
+            "description": "ISO 8601 timestamp when the cart was created.",
             "format": "date-time"
           },
           "updatedAt": {
             "type": "string",
+            "description": "ISO 8601 timestamp when the cart was last updated.",
             "format": "date-time"
           }
         }

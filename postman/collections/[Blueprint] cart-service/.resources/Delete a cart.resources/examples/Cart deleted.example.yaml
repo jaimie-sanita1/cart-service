@@ -1,6 +1,6 @@
 $kind: http-example
 request:
-  url: "{{baseUrl}}/carts/:cartId"
+  url: ://{{baseUrl}}/carts/:cartId
   method: DELETE
   headers:
     - key: Authorization

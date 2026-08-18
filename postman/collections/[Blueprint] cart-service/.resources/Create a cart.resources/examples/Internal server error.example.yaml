@@ -5,6 +5,7 @@ request:
   headers:
     - key: Accept
       value: application/json
+      description: ""
     - key: Authorization
       value: Bearer <token>
       description: "Added as a part of security scheme: bearer"
@@ -17,7 +18,7 @@ response:
   headers:
     Content-Type: application/json
   body:
-    type: json
+    type: text
     content: |-
       {
         "code": "NOT_FOUND",
@@ -25,15 +26,18 @@ response:
       }
     $type: |-
       {
+        "description": "Standard error response body returned for all error responses.",
         "type": "object",
         "properties": {
           "code": {
             "type": "string",
-            "example": "NOT_FOUND"
+            "example": "NOT_FOUND",
+            "description": "A machine-readable error code identifying the error type."
           },
           "message": {
             "type": "string",
-            "example": "Cart not found"
+            "example": "Cart not found",
+            "description": "A human-readable message describing the error."
           }
         }
       }
