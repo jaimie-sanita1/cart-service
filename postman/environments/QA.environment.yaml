@@ -1,5 +1,7 @@
 name: QA
 values:
   - key: baseUrl
-    value: http://localhost:3001
+    value: 'http://localhost:3001'
+    type: default
+    enabled: true
 color: 120

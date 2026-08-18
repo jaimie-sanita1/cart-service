@@ -1,12 +1,7 @@
-owner: "52538155"
-team: "13347347"
-lastUpdatedBy: "52538155"
-lastRevision: 1782412804000
 name: Production
-color: 0
 values:
   - key: baseUrl
-    value: "https://js-cart-service.postmansolutions.com"
+    value: 'https://js-cart-service.postmansolutions.com'
+    type: default
     enabled: true
-createdAt: 2026-06-25T18:39:42.000Z
-updatedAt: 2026-06-25T18:40:04.000Z
+color: 0
