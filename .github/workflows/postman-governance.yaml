@@ -21,4 +21,4 @@ jobs:
       - name: Login to Postman
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Lint spec
-        run: postman spec lint 7d5eeb88-f87f-416f-844a-13885c6d1098 --workspace-id 577d629c-9b7d-478f-acb1-97c5413bb366 --report-events
+        run: postman spec lint b4e45c99-9987-4d01-aa8c-6dad64321ca5 --workspace-id 577d629c-9b7d-478f-acb1-97c5413bb366 --report-events
