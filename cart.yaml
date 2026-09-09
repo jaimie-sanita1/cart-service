@@ -4,6 +4,8 @@ info:
   description: A simple e-commerce cart API for managing carts, items, and checkout.
   version: 1.0.0
   contact:
+    name: Jaimie Sanita
+    url: www.support@postman.com
     email: api-support@postmansolutions.com
 security:
   - bearerAuth: []
@@ -52,7 +54,8 @@ paths:
   /carts/{cartId}:
     get:
       summary: Get a cart
-      description: Retrieves a cart by its unique identifier, including all items and the current total.
+      description: Retrieves a cart by its unique identifier, including all items and
+        the current total.
       operationId: getCart
       tags:
         - Carts
@@ -103,7 +106,8 @@ paths:
   /carts/{cartId}/items:
     post:
       summary: Add an item to a cart
-      description: Adds a new product item to the specified cart. Returns the created cart item.
+      description: Adds a new product item to the specified cart. Returns the created
+        cart item.
       operationId: addItem
       tags:
         - Items
@@ -149,7 +153,8 @@ paths:
   /carts/{cartId}/items/{itemId}:
     patch:
       summary: Update item quantity
-      description: Updates the quantity of a specific item in the cart. Returns the updated cart item.
+      description: Updates the quantity of a specific item in the cart. Returns the
+        updated cart item.
       operationId: updateItemQuantity
       tags:
         - Items
@@ -211,7 +216,8 @@ paths:
   /carts/{cartId}/checkout:
     post:
       summary: Checkout a cart
-      description: Processes the checkout for a cart, creating an order from the cart contents. The cart must contain at least one item.
+      description: Processes the checkout for a cart, creating an order from the cart
+        contents. The cart must contain at least one item.
       operationId: checkout
       tags:
         - Checkout
