@@ -1,0 +1,83 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+  method: PATCH
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: cartId
+      value: cart_abc123
+      disabled: false
+      description: The unique identifier of the cart.
+    - key: itemId
+      value: item_xyz789
+      disabled: false
+      description: The unique identifier of the cart item.
+  body:
+    type: json
+    content: |-
+      {
+        "quantity": 3
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "item_xyz789",
+        "productId": "prod_001",
+        "name": "Wireless Headphones",
+        "price": 29.99,
+        "quantity": 3,
+        "subtotal": 89.97
+      }
+    $type: |-
+      {
+        "description": "Represents a single product item within a cart.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "item_xyz789",
+            "description": "Unique identifier for the cart item."
+          },
+          "productId": {
+            "type": "string",
+            "example": "prod_001",
+            "description": "The identifier of the product being purchased."
+          },
+          "name": {
+            "type": "string",
+            "example": "Wireless Headphones",
+            "description": "Display name of the product."
+          },
+          "price": {
+            "type": "number",
+            "example": 29.99,
+            "description": "Unit price of the product.",
+            "format": "float"
+          },
+          "quantity": {
+            "type": "integer",
+            "example": 2,
+            "description": "Number of units of this product in the cart."
+          },
+          "subtotal": {
+            "type": "number",
+            "example": 59.98,
+            "description": "Total price for this line item (price × quantity).",
+            "format": "float"
+          }
+        }
+      }
+order: 1000

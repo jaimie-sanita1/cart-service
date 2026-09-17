@@ -7,6 +7,10 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
   termsOfService: https://postman.example/api-terms
+  contact:
+    name: Jaimie Sanita
+    url: www/test.com
+    email: test@postman.com
 security:
   - bearerAuth: []
 

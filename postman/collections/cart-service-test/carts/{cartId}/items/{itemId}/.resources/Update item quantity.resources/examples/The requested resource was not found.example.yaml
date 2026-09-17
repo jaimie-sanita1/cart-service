@@ -1,0 +1,57 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+  method: PATCH
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: cartId
+      value: cart_abc123
+      disabled: false
+      description: The unique identifier of the cart.
+    - key: itemId
+      value: item_xyz789
+      disabled: false
+      description: The unique identifier of the cart item.
+  body:
+    type: json
+    content: |-
+      {
+        "quantity": 3
+      }
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "code": "NOT_FOUND",
+        "message": "Cart not found"
+      }
+    $type: |-
+      {
+        "description": "Standard error response body returned for all error responses.",
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "NOT_FOUND",
+            "description": "A machine-readable error code identifying the error type."
+          },
+          "message": {
+            "type": "string",
+            "example": "Cart not found",
+            "description": "A human-readable message describing the error."
+          }
+        }
+      }
+order: 3000

@@ -1,0 +1,31 @@
+$kind: http-request
+description: Permanently deletes a cart and all its items by cart ID.
+url: "{{baseUrl}}/carts/:cartId"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: cart_abc123
+    disabled: false
+    description: The unique identifier of the cart.
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "Unique identifier for a cart.",
+            "type": "string",
+            "example": "cart_abc123"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+settings: {}
+examples: ./.resources/Delete a cart.resources/examples
+order: 2000
