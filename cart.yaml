@@ -278,6 +278,56 @@ paths:
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /list-products:
+    get:
+      summary: Get product list
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - name
+                  - price
+                properties:
+                  id:
+                    type: string
+                    example: prod_001
+                  name:
+                    type: string
+                    example: Nike Air Max 90
+                  price:
+                    type: number
+                    format: float
+                    example: 129.99
+                  availability:
+                    type: string
+                    enum:
+                      - in_stock
+                      - out_of_stock
+                    example: in_stock
+              examples:
+                example1:
+                  value:
+                    - id: prod_001
+                      name: Nike Air Max 90
+                      price: 129.99
+                      availability: in_stock
+                    - id: prod_002
+                      name: Adidas Samba OG
+                      price: 100
+                      availability: in_stock
+                    - id: prod_003
+                      name: New Balance 550
+                      price: 109.99
+                      availability: out_of_stock
+      description: Browse available products
+      operationId: listProduct
+      tags:
+        - Product
 
 components:
   securitySchemes:
@@ -362,7 +412,8 @@ components:
 
     CheckoutRequest:
       type: object
-      description: Optional request body for checkout. No fields are required for a basic checkout.
+      description: Optional request body for checkout. No fields are required for a
+        basic checkout.
 
     CartId:
       type: string
