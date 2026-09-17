@@ -1,0 +1,18 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/product-list?param_1=string"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  - key: param_1
+    value: string
+    disabled: false
+    description: ""
+    $type: string
+body:
+  type: text
+  content: ""
+settings: {}
+examples: ./.resources/Get Product List.resources/examples
+order: 1000

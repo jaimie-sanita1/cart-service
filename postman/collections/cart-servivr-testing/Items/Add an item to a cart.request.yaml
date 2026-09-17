@@ -1,0 +1,58 @@
+$kind: http-request
+description: Adds a new product item to the specified cart. Returns the created cart item.
+url: "{{baseUrl}}/carts/:cartId/items"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: cart_abc123
+    disabled: false
+    description: The unique identifier of the cart.
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "Unique identifier for a cart.",
+            "type": "string",
+            "example": "cart_abc123"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "productId": "prod_001",
+      "quantity": 2
+    }
+  $type: |-
+    {
+      "description": "Request body for adding a product to a cart.",
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "example": "prod_001",
+          "description": "The identifier of the product to add."
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "example": 2,
+          "description": "Number of units to add. Must be at least 1."
+        }
+      },
+      "required": [
+        "productId",
+        "quantity"
+      ]
+    }
+settings: {}
+examples: ./.resources/Add an item to a cart.resources/examples
+order: 1000

@@ -1,0 +1,31 @@
+$kind: http-request
+description: Retrieves a cart by its unique identifier, including all items and the current total.
+url: "{{baseUrl}}/carts/:cartId"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: cart_abc123
+    disabled: false
+    description: The unique identifier of the cart.
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "Unique identifier for a cart.",
+            "type": "string",
+            "example": "cart_abc123"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+settings: {}
+examples: ./.resources/Get a cart.resources/examples
+order: 2000

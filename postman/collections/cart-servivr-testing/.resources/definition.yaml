@@ -1,0 +1,15 @@
+$kind: collection
+description: |-
+  A simple e-commerce cart API for managing carts, items, and checkout.
+
+  Contact Support:
+   Name: Jaimie Sanita
+   Email: test@postman.com
+variables:
+  baseUrl: https://js-cart-service.postmansolutions.com
+auth:
+  - id: 4c42024d-6c26-4e80-86b5-b0eaf594f640
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{bearerToken}}"

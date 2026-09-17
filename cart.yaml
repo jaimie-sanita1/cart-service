@@ -5,8 +5,8 @@ info:
   version: 1.0.0
   contact:
     name: Jaimie Sanita
-    url: www.support@postman.com
-    email: api-support@postmansolutions.com
+    url: www.test.com
+    email: test@postman.com
 security:
   - bearerAuth: []
 
@@ -252,6 +252,39 @@ paths:
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /product-list:
+    get:
+      summary: "Get Product List "
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+              examples:
+                example1:
+                  value:
+                    id: cart_abc123
+                    items:
+                      - id: item_xyz789
+                        productId: prod_001
+                        name: Wireless Headphones
+                        price: 29.99
+                        quantity: 2
+                        subtotal: 59.98
+                    total: 59.97
+                    createdAt: 2026-01-01T00:00:00Z
+                    updatedAt: 2026-01-01T00:00:00Z
+      operationId: productList
+      tags:
+        - Product
+      parameters:
+        - name: param_1
+          in: query
+          schema:
+            type: string
+          required: false
 
 components:
   securitySchemes:

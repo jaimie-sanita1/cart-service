@@ -1,0 +1,12 @@
+$kind: http-request
+description: Creates a new empty shopping cart and returns the cart object.
+url: "{{baseUrl}}/carts"
+method: POST
+headers:
+  Accept: application/json
+body:
+  type: text
+  content: ""
+settings: {}
+examples: ./.resources/Create a cart.resources/examples
+order: 1000

@@ -1,0 +1,69 @@
+$kind: http-request
+description: Updates the quantity of a specific item in the cart. Returns the updated cart item.
+url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: cart_abc123
+    disabled: false
+    description: The unique identifier of the cart.
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "Unique identifier for a cart.",
+            "type": "string",
+            "example": "cart_abc123"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+  - key: itemId
+    value: item_xyz789
+    disabled: false
+    description: The unique identifier of the cart item.
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "Unique identifier for a cart item.",
+            "type": "string",
+            "example": "item_xyz789"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "quantity": 3
+    }
+  $type: |-
+    {
+      "description": "Request body for updating the quantity of a cart item.",
+      "type": "object",
+      "properties": {
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "example": 3,
+          "description": "The new quantity for the item. Must be at least 1."
+        }
+      },
+      "required": [
+        "quantity"
+      ]
+    }
+settings: {}
+examples: ./.resources/Update item quantity.resources/examples
+order: 2000
