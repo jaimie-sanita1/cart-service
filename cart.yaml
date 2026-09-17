@@ -7,6 +7,10 @@ info:
     name: Jaimie Sanita
     url: www.support@postman.com
     email: api-support@postmansolutions.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.postmansolutions.com/terms
 security:
   - bearerAuth: []
 
@@ -32,6 +36,17 @@ paths:
       operationId: createCart
       tags:
         - Carts
+      requestBody:
+        required: false
+        description: Optional cart initialization options.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCartRequest'
+            examples:
+              EmptyBody:
+                summary: No body required
+                value: {}
       responses:
         '201':
           description: Cart created successfully
@@ -223,6 +238,17 @@ paths:
         - Checkout
       parameters:
         - $ref: '#/components/parameters/cartId'
+      requestBody:
+        required: false
+        description: Optional checkout options such as payment method or shipping address.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+            examples:
+              EmptyBody:
+                summary: No body required for basic checkout
+                value: {}
       responses:
         '200':
           description: Checkout completed successfully
@@ -267,6 +293,7 @@ components:
       in: path
       required: true
       description: The unique identifier of the cart.
+      example: cart_abc123
       schema:
         $ref: '#/components/schemas/CartId'
     itemId:
@@ -274,6 +301,7 @@ components:
       in: path
       required: true
       description: The unique identifier of the cart item.
+      example: item_xyz789
       schema:
         $ref: '#/components/schemas/ItemId'
 
@@ -328,6 +356,14 @@ components:
                 message: An unexpected error occurred
 
   schemas:
+    CreateCartRequest:
+      type: object
+      description: Optional request body for cart creation. No fields are required.
+
+    CheckoutRequest:
+      type: object
+      description: Optional request body for checkout. No fields are required for a basic checkout.
+
     CartId:
       type: string
       description: Unique identifier for a cart.
@@ -349,6 +385,8 @@ components:
         items:
           type: array
           description: List of items currently in the cart.
+          minItems: 0
+          maxItems: 100
           items:
             $ref: '#/components/schemas/CartItem'
         total:
@@ -440,6 +478,8 @@ components:
         items:
           type: array
           description: List of items included in the order.
+          minItems: 1
+          maxItems: 100
           items:
             $ref: '#/components/schemas/CartItem'
         total:
