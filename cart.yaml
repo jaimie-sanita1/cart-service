@@ -3,10 +3,10 @@ info:
   title: Cart API
   description: A simple e-commerce cart API for managing carts, items, and checkout.
   version: 1.0.0
-  contact:
-    name: Jaimie Sanita
-    url: www.support@postman.com
-    email: api-support@postmansolutions.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  termsOfService: https://postman.example/api-terms
 security:
   - bearerAuth: []
 
@@ -32,6 +32,21 @@ paths:
       operationId: createCart
       tags:
         - Carts
+      requestBody:
+        required: false
+        description: Optional cart initialization options.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCartRequest'
+            examples:
+              EmptyBody:
+                summary: No initialization options
+                value: {}
+              WithCustomer:
+                summary: Associate cart with a customer
+                value:
+                  customerId: cust_789xyz
       responses:
         '201':
           description: Cart created successfully
@@ -223,6 +238,22 @@ paths:
         - Checkout
       parameters:
         - $ref: '#/components/parameters/cartId'
+      requestBody:
+        required: false
+        description: Optional checkout options such as shipping address or payment method.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+            examples:
+              EmptyBody:
+                summary: No checkout options
+                value: {}
+              WithShipping:
+                summary: Checkout with shipping address
+                value:
+                  shippingAddress: '123 Main St, Springfield, USA'
+                  paymentMethod: pm_card_visa
       responses:
         '200':
           description: Checkout completed successfully
@@ -267,6 +298,7 @@ components:
       in: path
       required: true
       description: The unique identifier of the cart.
+      example: cart_abc123
       schema:
         $ref: '#/components/schemas/CartId'
     itemId:
@@ -274,6 +306,7 @@ components:
       in: path
       required: true
       description: The unique identifier of the cart item.
+      example: item_xyz789
       schema:
         $ref: '#/components/schemas/ItemId'
 
@@ -460,6 +493,28 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the order was created.
+
+    CreateCartRequest:
+      type: object
+      description: Optional request body for initializing a new cart.
+      properties:
+        customerId:
+          type: string
+          description: Optional customer ID to associate with the cart.
+          example: cust_789xyz
+
+    CheckoutRequest:
+      type: object
+      description: Optional request body for checkout options.
+      properties:
+        shippingAddress:
+          type: string
+          description: Destination address for the order.
+          example: '123 Main St, Springfield, USA'
+        paymentMethod:
+          type: string
+          description: Payment method token or identifier.
+          example: pm_card_visa
 
     Error:
       type: object
