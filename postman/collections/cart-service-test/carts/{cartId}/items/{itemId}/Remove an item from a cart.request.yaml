@@ -1,0 +1,49 @@
+$kind: http-request
+description: Removes a specific item from the cart by item ID.
+url: "{{baseUrl}}/carts/:cartId/items/:itemId"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  - key: cartId
+    value: cart_abc123
+    disabled: false
+    description: The unique identifier of the cart.
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "Unique identifier for a cart.",
+            "type": "string",
+            "example": "cart_abc123"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+  - key: itemId
+    value: item_xyz789
+    disabled: false
+    description: The unique identifier of the cart item.
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "Unique identifier for a cart item.",
+            "type": "string",
+            "example": "item_xyz789"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+settings: {}
+examples: ./.resources/Remove an item from a cart.resources/examples
+order: 2000

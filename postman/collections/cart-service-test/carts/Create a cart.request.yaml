@@ -1,0 +1,25 @@
+$kind: http-request
+description: Creates a new empty shopping cart and returns the cart object.
+url: "{{baseUrl}}/carts"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: "{}"
+  $type: |-
+    {
+      "description": "Optional request body for initializing a new cart.",
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "example": "cust_789xyz",
+          "description": "Optional customer ID to associate with the cart."
+        }
+      }
+    }
+settings: {}
+examples: ./.resources/Create a cart.resources/examples
+order: 1000
