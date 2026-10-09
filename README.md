@@ -15,6 +15,24 @@ Simple Node.js checkout flow service built with Express and in-memory state.
 
 The API behavior aligns with `cart.yaml` and your Postman requests.
 
+## Inventory dependency
+
+When `INVENTORY_BASE_URL` is set, `POST /carts/:cartId/items` calls inventory-service:
+
+1. `GET /v1/items/{productId}` for name/price
+2. `POST /v1/reservations` to reserve stock
+
+Both services propagate W3C `traceparent` so Postman Insights can build the cart → inventory edge in API Catalog.
+
+Without `INVENTORY_BASE_URL`, cart falls back to its local hard-coded product catalog (existing local/demo behavior).
+
+```bash
+# terminal 1 — inventory-service
+INVENTORY_BASE_URL=http://localhost:3004 npm start   # from cart-service after inventory is up
+```
+
+Kind/Insights demo scripts live in the inventory-service repo (`scripts/run-insights-demo.sh`).
+
 ## Local run
 
 1. Install dependencies:
