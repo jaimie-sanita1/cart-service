@@ -21,6 +21,14 @@ function cartTotal(items) {
   return roundCurrency(items.reduce((sum, item) => sum + item.subtotal, 0));
 }
 
+function resolveLocalProduct(productId) {
+  const catalogItem = PRODUCT_CATALOG[productId];
+  return {
+    name: catalogItem ? catalogItem.name : `Product ${productId}`,
+    price: catalogItem ? catalogItem.price : 9.99
+  };
+}
+
 function createCart() {
   const timestamp = nowIso();
   const cart = {
@@ -42,16 +50,16 @@ function deleteCart(cartId) {
   return carts.delete(cartId);
 }
 
-function addItem(cartId, payload) {
+function addItem(cartId, payload, product) {
   const cart = getCart(cartId);
   if (!cart) return null;
 
-  const catalogItem = PRODUCT_CATALOG[payload.productId];
-  const unitPrice = catalogItem ? catalogItem.price : 9.99;
+  const resolved = product || resolveLocalProduct(payload.productId);
+  const unitPrice = resolved.price;
   const item = {
     id: `item_${uuidv4()}`,
     productId: payload.productId,
-    name: catalogItem ? catalogItem.name : `Product ${payload.productId}`,
+    name: resolved.name,
     price: unitPrice,
     quantity: payload.quantity,
     subtotal: roundCurrency(unitPrice * payload.quantity)
@@ -116,5 +124,6 @@ module.exports = {
   addItem,
   updateItemQuantity,
   removeItem,
-  checkout
+  checkout,
+  resolveLocalProduct
 };

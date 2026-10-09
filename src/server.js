@@ -1,10 +1,13 @@
 const express = require("express");
 const store = require("./store");
+const { tracingMiddleware } = require("./tracing");
+const inventory = require("./inventoryClient");
 
 const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(express.json());
+app.use(tracingMiddleware);
 
 function notFound(res, message) {
   return res.status(404).json({
@@ -21,7 +24,10 @@ function badRequest(res, message) {
 }
 
 app.get("/healthz", (req, res) => {
-  res.status(200).json({ status: "ok" });
+  res.status(200).json({
+    status: "ok",
+    inventoryConfigured: inventory.inventoryEnabled()
+  });
 });
 
 app.post("/carts", (req, res) => {
@@ -41,15 +47,65 @@ app.delete("/carts/:cartId", (req, res) => {
   return res.status(204).send();
 });
 
-app.post("/carts/:cartId/items", (req, res) => {
-  const { productId, quantity } = req.body || {};
-  if (!productId || !Number.isInteger(quantity) || quantity < 1) {
-    return badRequest(res, "productId and quantity >= 1 are required");
-  }
+app.post("/carts/:cartId/items", async (req, res, next) => {
+  try {
+    const { productId, quantity } = req.body || {};
+    if (!productId || !Number.isInteger(quantity) || quantity < 1) {
+      return badRequest(res, "productId and quantity >= 1 are required");
+    }
 
-  const item = store.addItem(req.params.cartId, { productId, quantity });
-  if (!item) return notFound(res, "Cart not found");
-  return res.status(201).json(item);
+    const cart = store.getCart(req.params.cartId);
+    if (!cart) return notFound(res, "Cart not found");
+
+    let product;
+    if (inventory.inventoryEnabled()) {
+      const lookup = await inventory.getItem(req, productId);
+      if (lookup.status === 404) {
+        return res.status(404).json({
+          code: "PRODUCT_NOT_FOUND",
+          message: `Inventory item not found for sku ${productId}`
+        });
+      }
+      if (lookup.status < 200 || lookup.status >= 300) {
+        return res.status(502).json({
+          code: "INVENTORY_UNAVAILABLE",
+          message: "Failed to look up product in inventory-service",
+          upstream: lookup.body
+        });
+      }
+
+      const reservation = await inventory.createReservation(req, {
+        sku: productId,
+        quantity
+      });
+      if (reservation.status === 409) {
+        return res.status(409).json({
+          code: "INSUFFICIENT_STOCK",
+          message: "Not enough quantity available in inventory",
+          upstream: reservation.body
+        });
+      }
+      if (reservation.status < 200 || reservation.status >= 300) {
+        return res.status(502).json({
+          code: "INVENTORY_UNAVAILABLE",
+          message: "Failed to reserve inventory",
+          upstream: reservation.body
+        });
+      }
+
+      product = {
+        name: lookup.body.name,
+        price: lookup.body.price
+      };
+    } else {
+      product = store.resolveLocalProduct(productId);
+    }
+
+    const item = store.addItem(req.params.cartId, { productId, quantity }, product);
+    return res.status(201).json(item);
+  } catch (err) {
+    return next(err);
+  }
 });
 
 app.patch("/carts/:cartId/items/:itemId", (req, res) => {
@@ -99,4 +155,11 @@ app.use((err, req, res, next) => {
 
 app.listen(port, () => {
   console.log(`cart-service listening on ${port}`);
+  if (inventory.inventoryEnabled()) {
+    console.log(
+      `inventory dependency enabled: ${process.env.INVENTORY_BASE_URL}`
+    );
+  } else {
+    console.log("inventory dependency disabled (local catalog fallback)");
+  }
 });
