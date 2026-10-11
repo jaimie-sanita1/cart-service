@@ -3,10 +3,6 @@ info:
   title: Cart API
   description: A simple e-commerce cart API for managing carts, items, and checkout.
   version: 1.0.0
-  contact:
-    name: Jaimie Sanita
-    url: www.support@postman.com
-    email: api-support@postmansolutions.com
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -63,8 +59,6 @@ paths:
                     total: 0
                     createdAt: '2024-01-15T10:00:00Z'
                     updatedAt: '2024-01-15T10:00:00Z'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
 
   /carts/{cartId}:
     get:
