@@ -1,0 +1,26 @@
+instances:
+  - url: cart-service.docs.buildwithfern.com
+
+title: Cart API
+
+colors:
+  accent-primary:
+    light: "#D64309"
+    dark: "#FF8A5E"
+
+navbar-links:
+  - type: github
+    value: https://github.com/jaimie-sanita1/cart-service
+
+navigation:
+  - section: Get started
+    contents:
+      - page: Overview
+        path: ./pages/overview.mdx
+      - page: Quickstart
+        path: ./pages/quickstart.mdx
+        slug: quickstart
+      - page: Errors
+        path: ./pages/errors.mdx
+        slug: errors
+  - api: API Reference

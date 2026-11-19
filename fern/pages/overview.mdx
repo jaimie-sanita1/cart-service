@@ -1,0 +1,60 @@
+---
+title: Overview
+subtitle: Create a cart, put items in it, check out. Eight endpoints, one JSON error shape.
+---
+
+The Cart API manages shopping carts for a checkout flow: you create a cart, add and adjust line items,
+and turn the cart into a confirmed order. Prices, subtotals and the cart total are computed server-side,
+so a client never sends money amounts — it sends a `productId` and a `quantity`, and reads back what the
+line costs.
+
+## The lifecycle
+
+<Steps>
+  <Step title="Create">
+    `POST /carts` returns an empty cart with an `id`, an empty `items` array and a `total` of `0`.
+  </Step>
+  <Step title="Fill">
+    `POST /carts/{cartId}/items` adds a line item. `PATCH` and `DELETE` on
+    `/carts/{cartId}/items/{itemId}` adjust the quantity or drop the line. Each item carries its own
+    `subtotal` (price × quantity), and the cart's `total` is the sum of them.
+  </Step>
+  <Step title="Check out">
+    `POST /carts/{cartId}/checkout` converts the cart into an [Order](/api-reference/checkout) with a `status` of
+    `confirmed` and freezes the items as they stood. Checking out an empty cart is a `409`.
+  </Step>
+</Steps>
+
+A cart can hold up to 100 line items. `GET /carts/{cartId}` reads the current state at any point, and
+`DELETE /carts/{cartId}` discards the cart without ordering.
+
+## Base URL and auth
+
+```
+https://js-cart-service.postmansolutions.com
+```
+
+The spec declares a `bearerAuth` scheme (HTTP bearer, JWT format), but **cart-service does not enforce
+it** — it is declared so that callers and gateways in front of the service have a contract to code
+against. Treat the endpoints as unauthenticated until something in front of the service checks the token.
+
+<Note>
+Cart and order state is held in memory, per pod, and resets when the process restarts. That is fine for
+a demo or a mock-backed integration; a production deployment should swap the in-memory store for Redis
+or a database.
+</Note>
+
+## Where the data comes from
+
+When `INVENTORY_BASE_URL` is set, adding an item makes cart-service call inventory-service twice:
+`GET /v1/items/{productId}` for the name and price, then `POST /v1/reservations` to hold the stock. Both
+services propagate the W3C `traceparent` header, which is what lets Postman Insights draw the
+cart → inventory edge in the API Catalog.
+
+Without that variable, cart-service falls back to a small hard-coded product catalog, so the quickstart
+below works against a bare `npm start`.
+
+## Health
+
+`GET /healthz` is the container health check. It is deliberately absent from `cart.yaml`, and so from
+the API reference, because it is an operational endpoint rather than part of the cart contract.

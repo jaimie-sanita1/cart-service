@@ -1,0 +1,45 @@
+---
+title: Errors
+subtitle: One error shape across every endpoint, and what each code means for the caller.
+---
+
+Every failure returns the same JSON body: a machine-readable `code` to branch on and a human-readable
+`message` to log or surface.
+
+```json
+{
+  "code": "NOT_FOUND",
+  "message": "Cart not found"
+}
+```
+
+Branch on `code`, not on `message` — the wording is free to change, the code is part of the contract.
+
+## Codes
+
+| Status | `code` | Means | What to do |
+|---|---|---|---|
+| `400` | `BAD_REQUEST` | The body or parameters are invalid — most often a `quantity` that is missing, zero, negative or not an integer. | Fix the request. Retrying it unchanged fails the same way. |
+| `404` | `NOT_FOUND` | The `cartId` or `itemId` does not exist, or the cart was deleted or lost to a restart. | Create a new cart and rebuild it. Do not retry. |
+| `409` | `CONFLICT` | Checkout was called on a cart with no items. | Add at least one item, then check out. |
+| `500` | `INTERNAL_SERVER_ERROR` | Something failed inside the service or in its call to inventory-service. | Safe to retry with backoff. If it persists, the dependency is likely down. |
+
+## Which endpoint returns what
+
+<Note>
+`400` only appears on the two write paths that take a body: `POST /carts/{cartId}/items` and
+`PATCH /carts/{cartId}/items/{itemId}`. `409` only appears on `POST /carts/{cartId}/checkout`. Every
+endpoint except `POST /carts` can return `404`, and all of them can return `500`.
+</Note>
+
+## Why a `404` is more likely than it looks
+
+Cart state lives in memory, per pod. A cart created against one pod is invisible to another, and every
+cart disappears on restart or redeploy. A client that holds a `cartId` across a long session should treat
+`404` as "start over" rather than as a bug, and should not assume a cart it created minutes ago is still
+there.
+
+## Success codes
+
+`201` on create and add-item, `200` on read, update and checkout, and `204` with no body on both deletes
+— so do not try to parse a delete response.

@@ -1,0 +1,101 @@
+---
+title: Quickstart
+subtitle: Cart to confirmed order in three calls.
+---
+
+Run the service locally, then walk a cart from empty to ordered. Every response below is the real shape
+the service returns — the same shapes the [API Reference](/api-reference/carts/create-cart) documents field by field.
+
+## Run it
+
+```bash
+npm install
+npm start          # http://localhost:3001
+```
+
+The service needs Node `^22.23.4 || >=24.22.1`. With no `INVENTORY_BASE_URL` set it uses its built-in
+product catalog, so `prod_001` resolves without inventory-service running.
+
+## 1. Create a cart
+
+```bash
+curl -s -X POST http://localhost:3001/carts
+```
+
+```json
+{
+  "id": "cart_abc123",
+  "items": [],
+  "total": 0,
+  "createdAt": "2026-01-15T10:30:00Z",
+  "updatedAt": "2026-01-15T10:30:00Z"
+}
+```
+
+Keep the `id` — every call after this one is scoped to it.
+
+## 2. Add an item
+
+`productId` and `quantity` are the only fields you send. The service looks up the name and unit price
+and computes the subtotal.
+
+```bash
+curl -s -X POST http://localhost:3001/carts/cart_abc123/items \
+  -H "Content-Type: application/json" \
+  -d '{"productId":"prod_001","quantity":2}'
+```
+
+```json
+{
+  "id": "item_xyz789",
+  "productId": "prod_001",
+  "name": "Wireless Headphones",
+  "price": 29.99,
+  "quantity": 2,
+  "subtotal": 59.98
+}
+```
+
+To change your mind, `PATCH /carts/{cartId}/items/{itemId}` with a new `quantity` (minimum `1`), or
+`DELETE` the same path to drop the line. There is no quantity of zero — removing an item is a delete.
+
+## 3. Check out
+
+```bash
+curl -s -X POST http://localhost:3001/carts/cart_abc123/checkout
+```
+
+```json
+{
+  "id": "order_def456",
+  "cartId": "cart_abc123",
+  "items": [
+    {
+      "id": "item_xyz789",
+      "productId": "prod_001",
+      "name": "Wireless Headphones",
+      "price": 29.99,
+      "quantity": 2,
+      "subtotal": 59.98
+    }
+  ],
+  "total": 59.98,
+  "status": "confirmed",
+  "createdAt": "2026-01-15T10:35:00Z"
+}
+```
+
+The order copies the items as they stood at checkout, so later changes to the cart cannot rewrite an
+order. `status` starts at `confirmed` and moves through `processing`, `shipped` and `delivered`.
+
+<Warning>
+Checking out an empty cart returns `409 CONFLICT`. Add at least one item first.
+</Warning>
+
+## Against the mock server
+
+Swap the host for the published mock and the same three calls work without running anything:
+
+```bash
+curl -s -X POST https://js-cart-service.postmansolutions.com/carts
+```
