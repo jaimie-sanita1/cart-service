@@ -15,6 +15,21 @@ Simple Node.js checkout flow service built with Express and in-memory state.
 
 The API behavior aligns with `cart.yaml` and your Postman requests.
 
+## Documentation
+
+The docs site is built with [Fern](https://buildwithfern.com) from `cart.yaml` — the spec stays the
+single source of truth, and the hand-written pages live in `fern/pages/`.
+
+```bash
+npx fern-api check --warnings   # validate the site config and the spec it renders
+npx fern-api docs dev           # local preview on http://localhost:3000
+```
+
+Publishing is handled by `.github/workflows/fern-docs.yml`: `fern check` on every pull request that
+touches `fern/` or `cart.yaml`, a preview link in the job summary, and a publish on merge to `main`.
+Both the preview and the publish are skipped until the `FERN_TOKEN` repository secret is set — get one
+with `fern token` for the organization named in `fern/fern.config.json`.
+
 ## Inventory dependency
 
 When `INVENTORY_BASE_URL` is set, `POST /carts/:cartId/items` calls inventory-service:

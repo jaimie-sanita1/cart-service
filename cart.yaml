@@ -45,7 +45,7 @@ paths:
               $ref: '#/components/schemas/CreateCartRequest'
             examples:
               EmptyBody:
-                summary: No body required
+                summary: Create an empty cart
                 value: {}
       responses:
         '201':
@@ -56,7 +56,7 @@ paths:
                 $ref: '#/components/schemas/Cart'
               examples:
                 CartCreated:
-                  summary: A newly created cart
+                  summary: Create an empty cart
                   value:
                     id: cart_abc123
                     items: []
@@ -150,7 +150,7 @@ paths:
                 $ref: '#/components/schemas/CartItem'
               examples:
                 ItemAdded:
-                  summary: The newly added cart item
+                  summary: Add wireless headphones
                   value:
                     id: item_xyz789
                     productId: prod_001
@@ -197,7 +197,7 @@ paths:
                 $ref: '#/components/schemas/CartItem'
               examples:
                 ItemUpdated:
-                  summary: The updated cart item
+                  summary: Update quantity to 3
                   value:
                     id: item_xyz789
                     productId: prod_001
@@ -247,7 +247,7 @@ paths:
               $ref: '#/components/schemas/CheckoutRequest'
             examples:
               EmptyBody:
-                summary: No body required for basic checkout
+                summary: Check out to a confirmed order
                 value: {}
       responses:
         '200':
@@ -258,7 +258,7 @@ paths:
                 $ref: '#/components/schemas/Order'
               examples:
                 OrderConfirmed:
-                  summary: A confirmed order
+                  summary: Check out to a confirmed order
                   value:
                     id: order_def456
                     cartId: cart_abc123

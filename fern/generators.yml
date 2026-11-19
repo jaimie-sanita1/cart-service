@@ -1,0 +1,5 @@
+# cart.yaml at the repo root stays the single source of truth for the contract. The docs render it
+# in place, so there is no second copy of the spec to keep in sync.
+api:
+  specs:
+    - openapi: ../cart.yaml

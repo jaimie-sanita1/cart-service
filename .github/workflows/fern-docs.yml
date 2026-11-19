@@ -1,0 +1,43 @@
+# Fern docs built from cart.yaml, the same spec Postman governance and tests run against.
+# Pull requests: `fern check`, plus a preview link in the job summary once FERN_TOKEN is set.
+# Pushes to main: `fern check`, then publish once FERN_TOKEN is set. Get a token with `fern token`
+# (for the organization in fern/fern.config.json) and add it as the repository secret FERN_TOKEN.
+name: fern-docs
+
+on:
+  pull_request:
+    paths: ["fern/**", "cart.yaml", ".github/workflows/fern-docs.yml"]
+  push:
+    branches: [main]
+    paths: ["fern/**", "cart.yaml", ".github/workflows/fern-docs.yml"]
+  workflow_dispatch:
+
+jobs:
+  docs:
+    runs-on: ubuntu-24.04
+    env:
+      FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
+      FERN: npx --yes fern-api@5.223.1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the docs and the spec they render
+        run: $FERN check --warnings
+
+      - name: Preview link (pull requests)
+        if: github.event_name == 'pull_request' && env.FERN_TOKEN != ''
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          OUTPUT=$($FERN generate --docs --preview --id "$HEAD_REF" 2>&1) || { echo "$OUTPUT"; exit 1; }
+          echo "$OUTPUT"
+          URL=$(echo "$OUTPUT" | grep -oP 'Published docs to \K\S+' | head -1)
+          echo "Docs preview: $URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish (main)
+        if: github.event_name != 'pull_request' && env.FERN_TOKEN != ''
+        run: $FERN generate --docs
+
+      - name: No FERN_TOKEN yet
+        if: env.FERN_TOKEN == ''
+        run: echo "FERN_TOKEN isn't set, so the docs were checked but not published." >> "$GITHUB_STEP_SUMMARY"
